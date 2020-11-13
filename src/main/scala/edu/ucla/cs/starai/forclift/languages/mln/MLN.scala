@@ -297,7 +297,7 @@ case class WeightedFormula(
 
       val clauses: List[Clause] = (c0 :: otherliterals).map { _.standardizeApart }
       val cnf = new CNF(clauses)
-      val predWeights = PredicateWeights.empty + (res -> Weights(exp(weight), 1)) // 1 == exp(0)
+      val predWeights = PredicateWeights.empty + (res -> Weights.fromLog(weight, 0)) // 1 == exp(0)
       WeightedCNF(cnf, DomainSizes.empty, predWeights)
     }
   }
@@ -361,7 +361,7 @@ case class WeightedFormula(
         val res = new Predicate(Symbol(prefix), vars.size, domains)
         val f = res(vars: _*)
         val (predWeights, nformula) = transformation match {
-          case 0 => (PredicateWeights.empty + (res -> Weights(exp(weight), 1)), // 1 == exp(0)
+          case 0 => (PredicateWeights.empty + (res -> Weights.fromLog(weight, 0)), // 1 == exp(0)
             EqFormula(formula, LiteralFormula(f)))
           case 1 => (PredicateWeights.empty + (res -> Weights(exp(weight) / (1 - exp(weight)), 1)),
             ImplFormula(formula, LiteralFormula(f)))

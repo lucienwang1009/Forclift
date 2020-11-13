@@ -50,6 +50,8 @@ object Weights {
 
   def apply(posW: Double, negW: Double) = WeightsFromExp(posW, negW)
 
+  def fromLog(posW: Double, negW: Double) = new WeightsFromLog(SignLogDouble.fromLog(posW), SignLogDouble.fromLog(negW))
+
 }
 
 final case class WeightsFromExp(val posWDouble: Double, val negWDouble: Double) extends Weights {
