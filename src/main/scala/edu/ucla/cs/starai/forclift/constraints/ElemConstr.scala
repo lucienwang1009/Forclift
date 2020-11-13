@@ -25,7 +25,7 @@ import util.extracollection._
 
 //TODO move to Var
 final class ElemConstr(
-  final val self: Map[Var, Domain] = Map()) extends MapProxy[Var, Domain] {
+  final val self: Map[Var, Domain] = Map()) extends MapProxy[Var, Domain] with Serializable {
 
   def variables = keySet
 

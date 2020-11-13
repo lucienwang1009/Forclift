@@ -113,7 +113,7 @@ class ContradictionLeaf(val cnf: CNF, val clause: ContradictionClause, val posit
 
 }
 
-class UnitLeaf(val cnf: CNF, val clause: UnitClause, val positive: Boolean, val explanation: String = "") extends NNFNode {
+class UnitLeaf(val cnf: CNF, val clause: UnitClause, val positive: Boolean, val explanation: String = "") extends NNFNode with Serializable {
 
   require(clause.isUnconditional, "Unit leafs have to be unconditional for smoothing to be correct: "+clause)
   
@@ -141,7 +141,7 @@ class UnitLeaf(val cnf: CNF, val clause: UnitClause, val positive: Boolean, val 
 
 }
 
-class SmoothingNode(val clause: PositiveUnitClause) extends NNFNode {
+class SmoothingNode(val clause: PositiveUnitClause) extends NNFNode with Serializable {
 
   def size = 1
 

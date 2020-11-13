@@ -19,7 +19,7 @@ package edu.ucla.cs.starai.forclift
 import edu.ucla.cs.starai.forclift.inference._
 import collection._
 
-sealed abstract class Domain {
+sealed abstract class Domain extends Serializable {
 
   private[this] var nbSplitsVar = 0;
 
@@ -122,7 +122,7 @@ sealed abstract class Domain {
  * @param  staticConstants
  *         Set of given constants that will always be part of the domain.
  */
-class RootDomain(val name: String, val staticConstants: List[Constant] = List.empty) extends Domain {
+class RootDomain(val name: String, val staticConstants: List[Constant] = List.empty) extends Domain with Serializable {
 
   require(staticConstants.toSet.size == staticConstants.size, "Cannot have duplicate domain constants.")
 

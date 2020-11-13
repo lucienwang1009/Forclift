@@ -46,7 +46,7 @@ object Clause {
 class Clause(
   val posLits: List[Atom],
   val negLits: List[Atom],
-  initialConstrs: Constraints = Constraints.empty) {
+  initialConstrs: Constraints = Constraints.empty) extends Serializable {
 
   //	def subsumes(other: Clause) = {
   //		//TODO check domains/variables

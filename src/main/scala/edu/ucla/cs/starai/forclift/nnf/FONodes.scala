@@ -25,7 +25,7 @@ import edu.ucla.cs.starai.forclift.util._
 import edu.ucla.cs.starai.forclift.util.Binomial._
 import edu.ucla.cs.starai.forclift.util.ExternalBinaries
 
-class IndependentPartialGroundingNode(val cnf: CNF, val child: NNFNode, val c: Constant, val ineqs: Set[Constant], val d: Domain, val explanation: String = "") extends NNFNode {
+class IndependentPartialGroundingNode(val cnf: CNF, val child: NNFNode, val c: Constant, val ineqs: Set[Constant], val d: Domain, val explanation: String = "") extends NNFNode with Serializable {
 
   lazy val smooth = {
     val (childSmoothed, childvars) = child.smooth
@@ -79,7 +79,7 @@ class IndependentPartialGroundingNode(val cnf: CNF, val child: NNFNode, val c: C
 
 class CountingNode(val cnf: CNF, val child: NNFNode,
   val domain: Domain, val subdomain: SubDomain,
-  val explanation: String = "") extends NNFNode {
+  val explanation: String = "") extends NNFNode with Serializable {
 
   def size = child.size + 1
 

@@ -20,7 +20,7 @@ import scala.collection._
 import scala.language.implicitConversions 
 
 final class MultiMap[K, V](
-  final val self: Map[K, Set[V]] = Map.empty[K, Set[V]]) extends MapProxy[K, Set[V]] {
+  final val self: Map[K, Set[V]] = Map.empty[K, Set[V]]) extends MapProxy[K, Set[V]] with Serializable {
 
   import MultiMap._
 
