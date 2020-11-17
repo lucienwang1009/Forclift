@@ -167,6 +167,8 @@ class InputCLI(argumentParser: ArgotParser, debugCLI: DebugCLI) {
     }
   }
   
+
+  // Convert implicitly by ModelConverters
   lazy val wcnfModel: WeightedCNF = model
   
   def parseMLN(theoryStr: String): (MLN,ModelParser) = {

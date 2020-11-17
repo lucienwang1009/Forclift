@@ -21,6 +21,7 @@ import java.lang.System._
 import scala.collection.JavaConverters._
 import scala.io._
 import org.clapper.argot._
+import org.clapper.argot.ArgotConverters._
 import edu.ucla.cs.starai.forclift._
 import edu.ucla.cs.starai.forclift.inference._
 import edu.ucla.cs.starai.forclift.languages._
@@ -29,6 +30,7 @@ import edu.ucla.cs.starai.forclift.util.ExternalBinaries
 import edu.ucla.cs.starai.forclift.languages.mln._
 import edu.ucla.cs.starai.forclift.learning.Likelihood
 import edu.ucla.cs.starai.forclift.languages.focnf._
+import py4j.GatewayServer;
 
 object CLI extends App {
 
@@ -50,20 +52,32 @@ java -jar forclift.jar -q "smokes(Guy)" ./models/friendsmoker.mln
   val learningCLI = new LearningCLI(argumentParser,debugCLI,inputCLI)
   val outputCLI = new OutputCLI(argumentParser,debugCLI,inputCLI)
 
-  /* PARSE FLAGS AND HANDLE LOGIC */
+  val gFlag = argumentParser.flag[Boolean](
+    List("gateway"),
+    "If run as a gateway server")
+  def g = gFlag.value.getOrElse(false)
 
-  try {
-    argumentParser.parse(args)
-    
-    debugCLI.runDebugging(inputCLI)
-    inferenceCLI.runInference()
-    learningCLI.runLearning()
-    outputCLI.runOutput()
-    
-  } catch {
-    case e: ArgotUsageException =>
-      println(e.message)
-      System.exit(1)
+  def WFOMC(fileName: String) = {
+    println("calc WFOMC")
+  }
+
+  /* PARSE FLAGS AND HANDLE LOGIC */
+  argumentParser.parse(args)
+  if (g) {
+    val server = new GatewayServer(CLI)
+    server.start()
+  } else {
+    try {
+      debugCLI.runDebugging(inputCLI)
+      inferenceCLI.runInference()
+      learningCLI.runLearning()
+      outputCLI.runOutput()
+      
+    } catch {
+      case e: ArgotUsageException =>
+        println(e.message)
+        System.exit(1)
+    }
   }
 
   def assertFalse() = assert(false, "Assertions are enabled in CLI: check compiler flags")

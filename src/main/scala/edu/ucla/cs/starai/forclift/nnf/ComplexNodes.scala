@@ -28,7 +28,7 @@ import collection.mutable.ListBuffer
 import breeze.math._
 import edu.ucla.cs.starai.forclift.nnf.visitors.SafeSignLogDoubleWmc
 
-class Ref(val cnf: CNF, val nnfNode: NNFNode, val explanation: String = "") extends NNFNode {
+class Ref(val cnf: CNF, val nnfNode: NNFNode, val explanation: String = "") extends NNFNode with Serializable {
 
   def size = 0
 
@@ -59,7 +59,7 @@ class Ref(val cnf: CNF, val nnfNode: NNFNode, val explanation: String = "") exte
 
 }
 
-class And(val cnf: CNF, val l: NNFNode, val r: NNFNode, val explanation: String = "") extends NNFNode {
+class And(val cnf: CNF, val l: NNFNode, val r: NNFNode, val explanation: String = "") extends NNFNode with Serializable {
 
   def size = l.size + r.size + 1
 
@@ -122,7 +122,7 @@ class And(val cnf: CNF, val l: NNFNode, val r: NNFNode, val explanation: String 
 
 }
 
-class Or(val cnf: CNF, val l: NNFNode, val r: NNFNode, val explanation: String = "") extends NNFNode {
+class Or(val cnf: CNF, val l: NNFNode, val r: NNFNode, val explanation: String = "") extends NNFNode with Serializable {
 
   def size = l.size + r.size + 1
 
@@ -190,7 +190,7 @@ class Or(val cnf: CNF, val l: NNFNode, val r: NNFNode, val explanation: String =
 
 }
 
-class InclusionExclusion(val cnf: CNF, val plus1: NNFNode, val plus2: NNFNode, val min: NNFNode, val explanation: String = "") extends NNFNode {
+class InclusionExclusion(val cnf: CNF, val plus1: NNFNode, val plus2: NNFNode, val min: NNFNode, val explanation: String = "") extends NNFNode with Serializable {
 
   def size = plus1.size + plus2.size + min.size + 1
 

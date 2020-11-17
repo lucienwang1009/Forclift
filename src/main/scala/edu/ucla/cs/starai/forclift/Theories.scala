@@ -19,7 +19,7 @@ package edu.ucla.cs.starai.forclift
 import collection._
 import edu.ucla.cs.starai.forclift.inference._
 
-final class CNF(val clauses: List[Clause]) extends SetProxy[Clause] {
+final class CNF(val clauses: List[Clause]) extends SetProxy[Clause] with Serializable {
 
   //    assume(!clauses.exists { clause1 =>
   //        clauses.exists { clause2 =>

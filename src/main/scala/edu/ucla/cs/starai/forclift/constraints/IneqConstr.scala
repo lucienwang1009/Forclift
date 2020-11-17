@@ -24,7 +24,7 @@ import util._
 import util.extracollection._
 
 final class IneqConstr(
-  final val self: MultiMap[Var, Term] = MultiMap.empty) extends MapProxy[Var, Set[Term]] {
+  final val self: MultiMap[Var, Term] = MultiMap.empty) extends MapProxy[Var, Set[Term]] with Serializable {
 
   if (!self.values.forall { _.nonEmpty }) {
     println("remove me")

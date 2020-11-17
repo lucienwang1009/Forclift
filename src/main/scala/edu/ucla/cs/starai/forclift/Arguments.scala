@@ -22,7 +22,7 @@ import util._
 //Arguments
 sealed trait Term
 
-sealed /*not case*/ class Var( /*domain: Domain[T]*/ ) extends Term {
+sealed /*not case*/ class Var( /*domain: Domain[T]*/ ) extends Term with Serializable {
 
   override def toString = "X" + (hashCode % 10000)
 

@@ -26,6 +26,8 @@ import edu.ucla.cs.starai.forclift.util._
 import edu.ucla.cs.starai.forclift.nnf.visitors.SignLogDoubleWmc
 import edu.ucla.cs.starai.forclift.nnf.visitors.VerifyWmcVisitor
 import edu.ucla.cs.starai.forclift.nnf.visitors.WmcVisitor
+import edu.ucla.cs.starai.forclift.nnf.NNFNode
+import java.io._
 
 case class WeightedCNF(
   cnf: CNF,
@@ -139,7 +141,16 @@ case class WeightedCNF(
 
   lazy val toSmoothDimacsCNF: DimacsCNF = toSmoothDimacsCNFBuilder.toDimacsCNF
 
-  lazy val smoothNnf = nnf.smoothWithPredicates(vocabularyPredicates, conditionedAtoms.toSet)
+  lazy val smoothNnf = {
+    val smoothNnf_ = nnf.smoothWithPredicates(vocabularyPredicates, conditionedAtoms.toSet)
+    // val out = new ObjectOutputStream(new FileOutputStream("./tmp.nnf"))
+    // out.writeObject(smoothNnf_)
+    // out.close()
+    // val in = new ObjectInputStream(new FileInputStream("./tmp.nnf"))
+    // val smoothNnf_ = in.readObject().asInstanceOf[NNFNode]
+    // in.close()
+    smoothNnf_
+  }
 
   def sizeHint(d: Domain) = domainSizes(d.root).size
 
