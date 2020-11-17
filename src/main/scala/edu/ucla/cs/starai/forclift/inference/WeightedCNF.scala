@@ -143,12 +143,6 @@ case class WeightedCNF(
 
   lazy val smoothNnf = {
     val smoothNnf_ = nnf.smoothWithPredicates(vocabularyPredicates, conditionedAtoms.toSet)
-    // val out = new ObjectOutputStream(new FileOutputStream("./tmp.nnf"))
-    // out.writeObject(smoothNnf_)
-    // out.close()
-    // val in = new ObjectInputStream(new FileInputStream("./tmp.nnf"))
-    // val smoothNnf_ = in.readObject().asInstanceOf[NNFNode]
-    // in.close()
     smoothNnf_
   }
 
