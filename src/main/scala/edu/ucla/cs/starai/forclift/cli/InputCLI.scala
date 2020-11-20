@@ -47,7 +47,7 @@ class InputCLI(argumentParser: ArgotParser, debugCLI: DebugCLI) {
   val inputFileFlag = argumentParser.parameter[File](
     "input",
     "Input file to read.",
-    false) {
+    true) {
       (s, opt) =>
         val file = new File(s)
         if (!file.exists)
@@ -167,6 +167,8 @@ class InputCLI(argumentParser: ArgotParser, debugCLI: DebugCLI) {
     }
   }
   
+
+  // Convert implicitly by ModelConverters
   lazy val wcnfModel: WeightedCNF = model
   
   def parseMLN(theoryStr: String): (MLN,ModelParser) = {

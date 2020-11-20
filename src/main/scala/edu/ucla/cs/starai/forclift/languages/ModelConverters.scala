@@ -23,6 +23,7 @@ import edu.ucla.cs.starai.forclift.propositional.DimacsCNF
 import edu.ucla.cs.starai.forclift.propositional.DimacsCNF
 import scala.language.implicitConversions
 
+// turn a StatRelModel into a WeightedCNF
 object ModelConverters{
   
   //TODO turn into a "pimp my library" pattern and take methods our of model classes

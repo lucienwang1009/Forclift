@@ -33,6 +33,11 @@ final case class Predicate(
 
   override val hashCode = name.hashCode * 41 + arity.hashCode
 
+  override def equals(arg: Any): Boolean = arg match {
+    case Predicate(_, _, _) => arg.hashCode == hashCode
+    case _ => false
+  }
+
   override def toString = name.name.toString
 
   def toStringFull = name.name.toString + (if(domains.isEmpty) "" else domains.map(_.name).mkString("(", ",", ")"))

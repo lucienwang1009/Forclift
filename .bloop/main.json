@@ -1,0 +1,477 @@
+{
+    "version" : "1.4.0",
+    "project" : {
+        "name" : "main",
+        "directory" : "/home/lucien/repos/Forclift",
+        "workspaceDir" : "/home/lucien/repos/Forclift",
+        "sources" : [
+            "/home/lucien/repos/Forclift/src/main/scala-2.11",
+            "/home/lucien/repos/Forclift/src/main/scala",
+            "/home/lucien/repos/Forclift/src/main/java",
+            "/home/lucien/repos/Forclift/target/scala-2.11/src_managed/main"
+        ],
+        "dependencies" : [
+        ],
+        "classpath" : [
+            "/home/lucien/.ivy2/cache/org.clapper/argot_2.11/jars/argot_2.11-1.0.3.jar",
+            "/home/lucien/.ivy2/cache/org.scala-lang/scala-library/jars/scala-library-2.11.8.jar",
+            "/home/lucien/.ivy2/cache/org.clapper/grizzled-scala_2.11/jars/grizzled-scala_2.11-1.2.jar",
+            "/home/lucien/.ivy2/cache/org.scala-lang.modules/scala-async_2.11/bundles/scala-async_2.11-0.9.1.jar",
+            "/home/lucien/.ivy2/cache/jline/jline/jars/jline-2.6.jar",
+            "/home/lucien/.ivy2/cache/org.scalanlp/breeze_2.11/jars/breeze_2.11-0.8.1.jar",
+            "/home/lucien/.ivy2/cache/org.scalanlp/breeze-macros_2.11/jars/breeze-macros_2.11-0.3.1.jar",
+            "/home/lucien/.ivy2/cache/org.scala-lang/scala-reflect/jars/scala-reflect-2.11.8.jar",
+            "/home/lucien/.ivy2/cache/com.github.fommil.netlib/core/jars/core-1.1.2.jar",
+            "/home/lucien/.ivy2/cache/net.sourceforge.f2j/arpack_combined_all/jars/arpack_combined_all-0.1.jar",
+            "/home/lucien/.ivy2/cache/net.sf.opencsv/opencsv/jars/opencsv-2.3.jar",
+            "/home/lucien/.ivy2/cache/com.github.rwl/jtransforms/jars/jtransforms-2.4.0.jar",
+            "/home/lucien/.ivy2/cache/junit/junit/jars/junit-4.8.2.jar",
+            "/home/lucien/.ivy2/cache/org.apache.commons/commons-math3/jars/commons-math3-3.2.jar",
+            "/home/lucien/.ivy2/cache/org.spire-math/spire_2.11/jars/spire_2.11-0.7.4.jar",
+            "/home/lucien/.ivy2/cache/org.spire-math/spire-macros_2.11/jars/spire-macros_2.11-0.7.4.jar",
+            "/home/lucien/.ivy2/cache/com.typesafe.scala-logging/scala-logging-slf4j_2.11/jars/scala-logging-slf4j_2.11-2.1.2.jar",
+            "/home/lucien/.ivy2/cache/com.typesafe.scala-logging/scala-logging-api_2.11/jars/scala-logging-api_2.11-2.1.2.jar",
+            "/home/lucien/.ivy2/cache/org.slf4j/slf4j-api/jars/slf4j-api-1.7.7.jar",
+            "/home/lucien/.ivy2/cache/org.scala-lang.modules/scala-parser-combinators_2.11/bundles/scala-parser-combinators_2.11-1.0.2.jar",
+            "/home/lucien/.ivy2/cache/net.sf.py4j/py4j/jars/py4j-0.8.2.1.jar"
+        ],
+        "out" : "/home/lucien/repos/Forclift/.bloop/main",
+        "classesDir" : "/home/lucien/repos/Forclift/.bloop/main/scala-2.11/classes",
+        "resources" : [
+            "/home/lucien/repos/Forclift/src/main/resources",
+            "/home/lucien/repos/Forclift/target/scala-2.11/resource_managed/main"
+        ],
+        "scala" : {
+            "organization" : "org.scala-lang",
+            "name" : "scala-compiler",
+            "version" : "2.11.8",
+            "options" : [
+                "-target:jvm-1.7",
+                "-encoding",
+                "UTF8",
+                "-optimise",
+                "-Xelide-below",
+                "3000",
+                "-Xdisable-assertions"
+            ],
+            "jars" : [
+                "/home/lucien/.ivy2/cache/org.scala-lang/scala-library/jars/scala-library-2.11.8.jar",
+                "/home/lucien/.ivy2/cache/org.scala-lang/scala-compiler/jars/scala-compiler-2.11.8.jar",
+                "/home/lucien/.ivy2/cache/org.scala-lang/scala-reflect/jars/scala-reflect-2.11.8.jar",
+                "/home/lucien/.ivy2/cache/org.scala-lang.modules/scala-xml_2.11/bundles/scala-xml_2.11-1.0.4.jar",
+                "/home/lucien/.ivy2/cache/org.scala-lang.modules/scala-parser-combinators_2.11/bundles/scala-parser-combinators_2.11-1.0.4.jar",
+                "/home/lucien/.ivy2/cache/jline/jline/jars/jline-2.12.1.jar"
+            ],
+            "setup" : {
+                "order" : "mixed",
+                "addLibraryToBootClasspath" : true,
+                "addCompilerToClasspath" : false,
+                "addExtraJarsToClasspath" : false,
+                "manageBootClasspath" : true,
+                "filterLibraryFromClasspath" : true
+            }
+        },
+        "java" : {
+            "options" : [
+                "-source",
+                "1.7",
+                "-target",
+                "1.7",
+                "-source",
+                "1.7",
+                "-target",
+                "1.7"
+            ]
+        },
+        "test" : {
+            "frameworks" : [
+                {
+                    "names" : [
+                        "org.scalacheck.ScalaCheckFramework"
+                    ]
+                },
+                {
+                    "names" : [
+                        "org.specs2.runner.Specs2Framework",
+                        "org.specs2.runner.SpecsFramework"
+                    ]
+                },
+                {
+                    "names" : [
+                        "org.specs.runner.SpecsFramework"
+                    ]
+                },
+                {
+                    "names" : [
+                        "org.scalatest.tools.Framework",
+                        "org.scalatest.tools.ScalaTestFramework"
+                    ]
+                },
+                {
+                    "names" : [
+                        "com.novocode.junit.JUnitFramework"
+                    ]
+                }
+            ],
+            "options" : {
+                "excludes" : [
+                ],
+                "arguments" : [
+                ]
+            }
+        },
+        "platform" : {
+            "name" : "jvm",
+            "config" : {
+                "home" : "/usr/lib/jvm/java-8-openjdk-amd64/jre",
+                "options" : [
+                    "-Duser.dir=/home/lucien/repos/Forclift"
+                ]
+            },
+            "mainClass" : [
+            ],
+            "classpath" : [
+            ],
+            "resources" : [
+            ]
+        },
+        "resolution" : {
+            "modules" : [
+                {
+                    "organization" : "org.clapper",
+                    "name" : "argot_2.11",
+                    "version" : "1.0.3",
+                    "artifacts" : [
+                        {
+                            "name" : "argot_2.11",
+                            "path" : "/home/lucien/.ivy2/cache/org.clapper/argot_2.11/jars/argot_2.11-1.0.3.jar"
+                        },
+                        {
+                            "name" : "argot_2.11",
+                            "classifier" : "sources",
+                            "path" : "/home/lucien/.ivy2/cache/org.clapper/argot_2.11/srcs/argot_2.11-1.0.3-sources.jar"
+                        }
+                    ]
+                },
+                {
+                    "organization" : "org.scala-lang",
+                    "name" : "scala-library",
+                    "version" : "2.11.8",
+                    "artifacts" : [
+                        {
+                            "name" : "scala-library",
+                            "path" : "/home/lucien/.ivy2/cache/org.scala-lang/scala-library/jars/scala-library-2.11.8.jar"
+                        },
+                        {
+                            "name" : "scala-library",
+                            "classifier" : "sources",
+                            "path" : "/home/lucien/.ivy2/cache/org.scala-lang/scala-library/srcs/scala-library-2.11.8-sources.jar"
+                        }
+                    ]
+                },
+                {
+                    "organization" : "org.clapper",
+                    "name" : "grizzled-scala_2.11",
+                    "version" : "1.2",
+                    "artifacts" : [
+                        {
+                            "name" : "grizzled-scala_2.11",
+                            "path" : "/home/lucien/.ivy2/cache/org.clapper/grizzled-scala_2.11/jars/grizzled-scala_2.11-1.2.jar"
+                        },
+                        {
+                            "name" : "grizzled-scala_2.11",
+                            "classifier" : "sources",
+                            "path" : "/home/lucien/.ivy2/cache/org.clapper/grizzled-scala_2.11/srcs/grizzled-scala_2.11-1.2-sources.jar"
+                        }
+                    ]
+                },
+                {
+                    "organization" : "org.scala-lang.modules",
+                    "name" : "scala-async_2.11",
+                    "version" : "0.9.1",
+                    "artifacts" : [
+                        {
+                            "name" : "scala-async_2.11",
+                            "path" : "/home/lucien/.ivy2/cache/org.scala-lang.modules/scala-async_2.11/bundles/scala-async_2.11-0.9.1.jar"
+                        },
+                        {
+                            "name" : "scala-async_2.11",
+                            "classifier" : "sources",
+                            "path" : "/home/lucien/.ivy2/cache/org.scala-lang.modules/scala-async_2.11/srcs/scala-async_2.11-0.9.1-sources.jar"
+                        }
+                    ]
+                },
+                {
+                    "organization" : "jline",
+                    "name" : "jline",
+                    "version" : "2.6",
+                    "artifacts" : [
+                        {
+                            "name" : "jline",
+                            "path" : "/home/lucien/.ivy2/cache/jline/jline/jars/jline-2.6.jar"
+                        },
+                        {
+                            "name" : "jline",
+                            "classifier" : "sources",
+                            "path" : "/home/lucien/.ivy2/cache/jline/jline/srcs/jline-2.6-sources.jar"
+                        }
+                    ]
+                },
+                {
+                    "organization" : "org.scalanlp",
+                    "name" : "breeze_2.11",
+                    "version" : "0.8.1",
+                    "artifacts" : [
+                        {
+                            "name" : "breeze_2.11",
+                            "path" : "/home/lucien/.ivy2/cache/org.scalanlp/breeze_2.11/jars/breeze_2.11-0.8.1.jar"
+                        },
+                        {
+                            "name" : "breeze_2.11",
+                            "classifier" : "sources",
+                            "path" : "/home/lucien/.ivy2/cache/org.scalanlp/breeze_2.11/srcs/breeze_2.11-0.8.1-sources.jar"
+                        }
+                    ]
+                },
+                {
+                    "organization" : "org.scalanlp",
+                    "name" : "breeze-macros_2.11",
+                    "version" : "0.3.1",
+                    "artifacts" : [
+                        {
+                            "name" : "breeze-macros_2.11",
+                            "path" : "/home/lucien/.ivy2/cache/org.scalanlp/breeze-macros_2.11/jars/breeze-macros_2.11-0.3.1.jar"
+                        },
+                        {
+                            "name" : "breeze-macros_2.11",
+                            "classifier" : "sources",
+                            "path" : "/home/lucien/.ivy2/cache/org.scalanlp/breeze-macros_2.11/srcs/breeze-macros_2.11-0.3.1-sources.jar"
+                        }
+                    ]
+                },
+                {
+                    "organization" : "org.scala-lang",
+                    "name" : "scala-reflect",
+                    "version" : "2.11.8",
+                    "artifacts" : [
+                        {
+                            "name" : "scala-reflect",
+                            "path" : "/home/lucien/.ivy2/cache/org.scala-lang/scala-reflect/jars/scala-reflect-2.11.8.jar"
+                        },
+                        {
+                            "name" : "scala-reflect",
+                            "classifier" : "sources",
+                            "path" : "/home/lucien/.ivy2/cache/org.scala-lang/scala-reflect/srcs/scala-reflect-2.11.8-sources.jar"
+                        }
+                    ]
+                },
+                {
+                    "organization" : "com.github.fommil.netlib",
+                    "name" : "core",
+                    "version" : "1.1.2",
+                    "artifacts" : [
+                        {
+                            "name" : "core",
+                            "path" : "/home/lucien/.ivy2/cache/com.github.fommil.netlib/core/jars/core-1.1.2.jar"
+                        },
+                        {
+                            "name" : "core",
+                            "classifier" : "sources",
+                            "path" : "/home/lucien/.ivy2/cache/com.github.fommil.netlib/core/srcs/core-1.1.2-sources.jar"
+                        }
+                    ]
+                },
+                {
+                    "organization" : "net.sourceforge.f2j",
+                    "name" : "arpack_combined_all",
+                    "version" : "0.1",
+                    "artifacts" : [
+                        {
+                            "name" : "arpack_combined_all",
+                            "path" : "/home/lucien/.ivy2/cache/net.sourceforge.f2j/arpack_combined_all/jars/arpack_combined_all-0.1.jar"
+                        }
+                    ]
+                },
+                {
+                    "organization" : "net.sf.opencsv",
+                    "name" : "opencsv",
+                    "version" : "2.3",
+                    "artifacts" : [
+                        {
+                            "name" : "opencsv",
+                            "path" : "/home/lucien/.ivy2/cache/net.sf.opencsv/opencsv/jars/opencsv-2.3.jar"
+                        },
+                        {
+                            "name" : "opencsv",
+                            "classifier" : "sources",
+                            "path" : "/home/lucien/.ivy2/cache/net.sf.opencsv/opencsv/srcs/opencsv-2.3-sources.jar"
+                        }
+                    ]
+                },
+                {
+                    "organization" : "com.github.rwl",
+                    "name" : "jtransforms",
+                    "version" : "2.4.0",
+                    "artifacts" : [
+                        {
+                            "name" : "jtransforms",
+                            "path" : "/home/lucien/.ivy2/cache/com.github.rwl/jtransforms/jars/jtransforms-2.4.0.jar"
+                        },
+                        {
+                            "name" : "jtransforms",
+                            "classifier" : "sources",
+                            "path" : "/home/lucien/.ivy2/cache/com.github.rwl/jtransforms/srcs/jtransforms-2.4.0-sources.jar"
+                        }
+                    ]
+                },
+                {
+                    "organization" : "junit",
+                    "name" : "junit",
+                    "version" : "4.8.2",
+                    "artifacts" : [
+                        {
+                            "name" : "junit",
+                            "path" : "/home/lucien/.ivy2/cache/junit/junit/jars/junit-4.8.2.jar"
+                        },
+                        {
+                            "name" : "junit",
+                            "classifier" : "sources",
+                            "path" : "/home/lucien/.ivy2/cache/junit/junit/srcs/junit-4.8.2-sources.jar"
+                        }
+                    ]
+                },
+                {
+                    "organization" : "org.apache.commons",
+                    "name" : "commons-math3",
+                    "version" : "3.2",
+                    "artifacts" : [
+                        {
+                            "name" : "commons-math3",
+                            "path" : "/home/lucien/.ivy2/cache/org.apache.commons/commons-math3/jars/commons-math3-3.2.jar"
+                        },
+                        {
+                            "name" : "commons-math3",
+                            "classifier" : "sources",
+                            "path" : "/home/lucien/.ivy2/cache/org.apache.commons/commons-math3/srcs/commons-math3-3.2-sources.jar"
+                        }
+                    ]
+                },
+                {
+                    "organization" : "org.spire-math",
+                    "name" : "spire_2.11",
+                    "version" : "0.7.4",
+                    "artifacts" : [
+                        {
+                            "name" : "spire_2.11",
+                            "path" : "/home/lucien/.ivy2/cache/org.spire-math/spire_2.11/jars/spire_2.11-0.7.4.jar"
+                        },
+                        {
+                            "name" : "spire_2.11",
+                            "classifier" : "sources",
+                            "path" : "/home/lucien/.ivy2/cache/org.spire-math/spire_2.11/srcs/spire_2.11-0.7.4-sources.jar"
+                        }
+                    ]
+                },
+                {
+                    "organization" : "org.spire-math",
+                    "name" : "spire-macros_2.11",
+                    "version" : "0.7.4",
+                    "artifacts" : [
+                        {
+                            "name" : "spire-macros_2.11",
+                            "path" : "/home/lucien/.ivy2/cache/org.spire-math/spire-macros_2.11/jars/spire-macros_2.11-0.7.4.jar"
+                        },
+                        {
+                            "name" : "spire-macros_2.11",
+                            "classifier" : "sources",
+                            "path" : "/home/lucien/.ivy2/cache/org.spire-math/spire-macros_2.11/srcs/spire-macros_2.11-0.7.4-sources.jar"
+                        }
+                    ]
+                },
+                {
+                    "organization" : "com.typesafe.scala-logging",
+                    "name" : "scala-logging-slf4j_2.11",
+                    "version" : "2.1.2",
+                    "artifacts" : [
+                        {
+                            "name" : "scala-logging-slf4j_2.11",
+                            "path" : "/home/lucien/.ivy2/cache/com.typesafe.scala-logging/scala-logging-slf4j_2.11/jars/scala-logging-slf4j_2.11-2.1.2.jar"
+                        },
+                        {
+                            "name" : "scala-logging-slf4j_2.11",
+                            "classifier" : "sources",
+                            "path" : "/home/lucien/.ivy2/cache/com.typesafe.scala-logging/scala-logging-slf4j_2.11/srcs/scala-logging-slf4j_2.11-2.1.2-sources.jar"
+                        }
+                    ]
+                },
+                {
+                    "organization" : "com.typesafe.scala-logging",
+                    "name" : "scala-logging-api_2.11",
+                    "version" : "2.1.2",
+                    "artifacts" : [
+                        {
+                            "name" : "scala-logging-api_2.11",
+                            "path" : "/home/lucien/.ivy2/cache/com.typesafe.scala-logging/scala-logging-api_2.11/jars/scala-logging-api_2.11-2.1.2.jar"
+                        },
+                        {
+                            "name" : "scala-logging-api_2.11",
+                            "classifier" : "sources",
+                            "path" : "/home/lucien/.ivy2/cache/com.typesafe.scala-logging/scala-logging-api_2.11/srcs/scala-logging-api_2.11-2.1.2-sources.jar"
+                        }
+                    ]
+                },
+                {
+                    "organization" : "org.slf4j",
+                    "name" : "slf4j-api",
+                    "version" : "1.7.7",
+                    "artifacts" : [
+                        {
+                            "name" : "slf4j-api",
+                            "path" : "/home/lucien/.ivy2/cache/org.slf4j/slf4j-api/jars/slf4j-api-1.7.7.jar"
+                        },
+                        {
+                            "name" : "slf4j-api",
+                            "classifier" : "sources",
+                            "path" : "/home/lucien/.ivy2/cache/org.slf4j/slf4j-api/srcs/slf4j-api-1.7.7-sources.jar"
+                        }
+                    ]
+                },
+                {
+                    "organization" : "org.scala-lang.modules",
+                    "name" : "scala-parser-combinators_2.11",
+                    "version" : "1.0.2",
+                    "artifacts" : [
+                        {
+                            "name" : "scala-parser-combinators_2.11",
+                            "path" : "/home/lucien/.ivy2/cache/org.scala-lang.modules/scala-parser-combinators_2.11/bundles/scala-parser-combinators_2.11-1.0.2.jar"
+                        },
+                        {
+                            "name" : "scala-parser-combinators_2.11",
+                            "classifier" : "sources",
+                            "path" : "/home/lucien/.ivy2/cache/org.scala-lang.modules/scala-parser-combinators_2.11/srcs/scala-parser-combinators_2.11-1.0.2-sources.jar"
+                        }
+                    ]
+                },
+                {
+                    "organization" : "net.sf.py4j",
+                    "name" : "py4j",
+                    "version" : "0.8.2.1",
+                    "artifacts" : [
+                        {
+                            "name" : "py4j",
+                            "path" : "/home/lucien/.ivy2/cache/net.sf.py4j/py4j/jars/py4j-0.8.2.1.jar"
+                        },
+                        {
+                            "name" : "py4j",
+                            "classifier" : "sources",
+                            "path" : "/home/lucien/.ivy2/cache/net.sf.py4j/py4j/srcs/py4j-0.8.2.1-sources.jar"
+                        }
+                    ]
+                }
+            ]
+        },
+        "tags" : [
+            "library"
+        ]
+    }
+}

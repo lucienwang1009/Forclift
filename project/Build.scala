@@ -168,7 +168,8 @@ object ForcliftBuild extends Build {
           //"org.scalanlp" %% "breeze" % "0.11.2",
           //"org.scalanlp" %% "breeze-natives" % "0.11.2",
 	  // Parser-combinators (used to be in the scala library)
-	  "org.scala-lang.modules" %% "scala-parser-combinators" % "1.0.2"
+	  "org.scala-lang.modules" %% "scala-parser-combinators" % "1.0.2",
+    "net.sf.py4j" % "py4j" % "0.8.2.1"
   	  // fast math library is not really faster for us
 	  // "net.jafama" % "jafama" % "2.1.0"
 	  // macro for generating equals/hashcode/canEqual
