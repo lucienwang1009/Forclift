@@ -65,6 +65,9 @@ case class WeightedCNF(
   lazy val wmcVisitor = WmcVisitor(predicateWeights)
   
   lazy val logSmoothWmc: SignLogDouble = {
+    for ((k, v) <- predicateWeights) {
+      println((k, v))
+    }
     //TODO test sign of weights and optimize
     wmcVisitor.wmc(smoothNnf,domainSizes, predicateWeights)
   }
