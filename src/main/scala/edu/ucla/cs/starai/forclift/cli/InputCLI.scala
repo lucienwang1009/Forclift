@@ -24,14 +24,10 @@ import org.clapper.argot.ArgotConverters.convertFlag
 import org.clapper.argot.ArgotParser
 import edu.ucla.cs.starai.forclift.Atom
 import edu.ucla.cs.starai.forclift.inference.WeightedCNF
-import edu.ucla.cs.starai.forclift.languages.FactorGraph
-import edu.ucla.cs.starai.forclift.languages.FactorGraphParser
 import edu.ucla.cs.starai.forclift.languages.FileFormat
 import edu.ucla.cs.starai.forclift.languages.FileFormat.stringToFileFormat
 import edu.ucla.cs.starai.forclift.languages.ModelParser
 import edu.ucla.cs.starai.forclift.languages.StatRelModel
-import edu.ucla.cs.starai.forclift.languages.focnf.FOCNF
-import edu.ucla.cs.starai.forclift.languages.focnf.FOCNFParser
 import edu.ucla.cs.starai.forclift.languages.mln.MLN
 import edu.ucla.cs.starai.forclift.languages.mln.MLNParser
 import edu.ucla.cs.starai.forclift.languages.ModelConverters._
@@ -72,8 +68,8 @@ class InputCLI(argumentParser: ArgotParser, debugCLI: DebugCLI) {
   val inputFileFormatFlag = argumentParser.option[FileFormat](
     List("format-in"),
     "file format",
-    s"File format of input model: ${FileFormat.FOCNF.extension}, ${FileFormat.MLN.extension}, ${FileFormat.FactorGraph.extension}, or ${FileFormat.WeightedGroupLogic.extension}"
-      + s" (for ${FileFormat.FOCNF}, ${FileFormat.MLN}, ${FileFormat.FactorGraph}, or ${FileFormat.WeightedGroupLogic}). When not specified, the file type is detected from the extension.") {
+    s"File format of input model: ${FileFormat.MLN.extension}"
+      + s" (for ${FileFormat.MLN}). When not specified, the file type is detected from the extension.") {
       (s, opt) =>
         val typeOpt: Option[FileFormat] = s
         typeOpt match {
@@ -149,9 +145,7 @@ class InputCLI(argumentParser: ArgotParser, debugCLI: DebugCLI) {
 
       println(s"Reading model using $inputFileFormat syntax.")
       val (model, parser) = inputFileFormat match {
-        case FileFormat.FOCNF => parseFOCNF(theoryStr)
         case FileFormat.MLN => parseMLN(theoryStr)
-        case FileFormat.FactorGraph => parseFactorGraph(theoryStr)
         case _ => throw new UnsupportedOperationException(s"Could not find parser for $inputFileFormat")
       }
       if (debugCLI.verbose) {
@@ -178,17 +172,6 @@ class InputCLI(argumentParser: ArgotParser, debugCLI: DebugCLI) {
     (mln,parser)
   }
   
-  def parseFactorGraph(theoryStr: String): (FactorGraph,FactorGraphParser) = {
-    val parser = new FactorGraphParser
-    val model = parser.parseModel(theoryStr + "\n")
-    (model,parser)
-  }
-  
-  def parseFOCNF(theoryStr: String): (FOCNF,FOCNFParser) = {
-    val parser = new FOCNFParser
-    val model = parser.parseModel(theoryStr + "\n")
-    (model,parser)
-  }
   
   //TODO add parser for WeightedGroupLogic
   

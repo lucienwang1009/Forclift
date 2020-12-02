@@ -9,4 +9,4 @@ person = {1, 2}
 friends(person,person)
 smokes(person)
 100 smokes(x)
-100 friends(x,y) ^ smokes(x) => smokes(y)
+1000 friends(x,y) ^ smokes(x) => smokes(y)

@@ -19,7 +19,6 @@ package edu.ucla.cs.starai.forclift.inference
 import edu.ucla.cs.starai.forclift._
 import edu.ucla.cs.starai.forclift.compiler._
 import edu.ucla.cs.starai.forclift.inference._
-import edu.ucla.cs.starai.forclift.rcr.NoTruthRCR
 import edu.ucla.cs.starai.forclift.util.Timer
 import edu.ucla.cs.starai.forclift.util.SignLogDouble
 import edu.ucla.cs.starai.forclift.util.LogDouble
@@ -67,36 +66,6 @@ class QueryProbExact(
     println(s"Z = $wmc = ${wmc.toDouble}")
     
     val queryWmc = queryWcnf.logSmoothWmc
-    println(s"Z(query) = $queryWmc = ${queryWmc.toDouble}")
-    
-    val prob = queryWmc / wmc
-    println(s"P($query) = $prob = ${prob.toDouble}")
-    
-    prob
-  }
-
-}
-
-
-class QueryProbC2D(
-    override val verbose: Boolean = false) 
-    extends QueryProbAlgorithm {
-
-  /**
-   * Output query probability using c2d (propositional)
-   */
-  def computeQueryProb(wcnf: WeightedCNF, query: PositiveUnitClause): SignLogDouble = {
-    
-    println(s"Running C2D (propositonal inference)")
-      
-    require(query.isGround, s"Query $query is not ground")
-    
-    val queryWcnf = wcnf.addConstraint(query)
-
-    val wmc = wcnf.logPropWmc
-    println(s"Z = $wmc = ${wmc.toDouble}")
-    
-    val queryWmc = queryWcnf.logPropWmc
     println(s"Z(query) = $queryWmc = ${queryWmc.toDouble}")
     
     val prob = queryWmc / wmc

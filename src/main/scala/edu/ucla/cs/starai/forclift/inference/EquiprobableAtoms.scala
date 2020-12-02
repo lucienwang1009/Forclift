@@ -20,7 +20,6 @@ import scala.collection._
 
 import edu.ucla.cs.starai.forclift._
 import edu.ucla.cs.starai.forclift.compiler._
-import edu.ucla.cs.starai.forclift.examples.models._
 import edu.ucla.cs.starai.forclift.inference._
 import scala.util.Random._
 import util.KLD._

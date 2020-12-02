@@ -44,12 +44,9 @@ import edu.ucla.cs.starai.forclift.inference.WeightedCNF
 import edu.ucla.cs.starai.forclift.compiler.Compiler
 import edu.ucla.cs.starai.forclift.languages.StatRelModel
 import edu.ucla.cs.starai.forclift.languages.ModelParser
-import edu.ucla.cs.starai.forclift.inference.AllMarginalsRCR
 import edu.ucla.cs.starai.forclift.inference.AllMarginalsExact
 import edu.ucla.cs.starai.forclift.util.Timer
-import edu.ucla.cs.starai.forclift.inference.PartitionFunctionC2D
 import edu.ucla.cs.starai.forclift.inference.QueryProbExact
-import edu.ucla.cs.starai.forclift.inference.QueryProbC2D
 import edu.ucla.cs.starai.forclift.inference.PartitionFunctionExact
 
 /**
@@ -61,18 +58,6 @@ class InferenceCLI(
     inputCLI: InputCLI) {
   
   /* INFERENCE FLAGS */
-
-  val propositionalFlag = argumentParser.flag[Boolean](
-    List("propinf"),
-    "Perform propositional inference using the c2d compiler from UCLA. The c2d compiler command can be set with environment variable C2DCMD (default: ./c2d_linux).")
-  def propositional = propositionalFlag.value.getOrElse(false)
-
-  val rcrFlag = argumentParser.flag[Boolean](
-    List("rcr"),
-    "Perform 'Relax, Compensate and Recover' approximate inference (all marginals).")
-  def rcr = rcrFlag.value.getOrElse(false)
-  
-  def fokc = !propositional && !rcr
   
   val zFlag = argumentParser.flag[Boolean](
     List("z"),
@@ -85,6 +70,8 @@ class InferenceCLI(
   def allMarginals = margs.value.getOrElse(false)
   
   def hasQuery = inputCLI.hasQuery
+
+  val fokc = true
   
   def runInference() {
     // make sure the model is parsed before inference timing starts
@@ -105,13 +92,6 @@ class InferenceCLI(
       val algo = new AllMarginalsExact(debugCLI.verbose)
       algo.computeAllMarginals(inputCLI.wcnfModel)
     }
-    if (propositional) {
-      argumentParser.usage("Propositional inference does not currently support computing all marginals. Use partition function or query instead.")
-    }
-    if (rcr) {
-      val algo = new AllMarginalsRCR(debugCLI.verbose)
-      algo.computeAllMarginals(inputCLI.wcnfModel)
-    }
   }
   
   def runPartitionFunctionInference(){
@@ -120,13 +100,6 @@ class InferenceCLI(
     if (fokc) {
       val algo = new PartitionFunctionExact(debugCLI.verbose)
       algo.computePartitionFunction(inputCLI.wcnfModel)
-    }
-    if (propositional) {
-      val algo = new PartitionFunctionC2D(debugCLI.verbose)
-      algo.computePartitionFunction(inputCLI.wcnfModel)
-    }
-    if (rcr) {
-      argumentParser.usage(s"RCR does not support the ${zFlag.names} flag. Compute all marginals instead.")
     }
   }
     
@@ -138,14 +111,6 @@ class InferenceCLI(
       val algo = new QueryProbExact(debugCLI.verbose)
       algo.computeQueryProb(inputCLI.wcnfModel, inputCLI.query)
     }
-    if (propositional) {
-      val algo = new QueryProbC2D(debugCLI.verbose)
-      algo.computeQueryProb(inputCLI.wcnfModel, inputCLI.query)
-    }
-    if (rcr) {
-      argumentParser.usage(s"RCR does not support the ${inputCLI.queryFlag.names} flag. Compute all marginals instead.")
-    }
-    
   }
   
 }

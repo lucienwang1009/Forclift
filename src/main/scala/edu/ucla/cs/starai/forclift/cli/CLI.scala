@@ -25,11 +25,8 @@ import org.clapper.argot.ArgotConverters._
 import edu.ucla.cs.starai.forclift._
 import edu.ucla.cs.starai.forclift.inference._
 import edu.ucla.cs.starai.forclift.languages._
-import edu.ucla.cs.starai.forclift.learning.structure.StructureLearner
 import edu.ucla.cs.starai.forclift.util.ExternalBinaries
 import edu.ucla.cs.starai.forclift.languages.mln._
-import edu.ucla.cs.starai.forclift.learning.Likelihood
-import edu.ucla.cs.starai.forclift.languages.focnf._
 import edu.ucla.cs.starai.forclift.inference.PartitionFunctionExact
 import edu.ucla.cs.starai.forclift.nnf.visitors.WmcVisitor
 import edu.ucla.cs.starai.forclift.inference.WeightedCNF
@@ -56,8 +53,6 @@ object CLI extends App {
   val debugCLI = new DebugCLI(argumentParser)
   val inputCLI = new InputCLI(argumentParser, debugCLI)
   val inferenceCLI = new InferenceCLI(argumentParser, debugCLI, inputCLI)
-  val learningCLI = new LearningCLI(argumentParser, debugCLI, inputCLI)
-  val outputCLI = new OutputCLI(argumentParser, debugCLI, inputCLI)
 
   val gFlag =
     argumentParser.flag[Boolean](List("gateway"), "If run as a gateway server")
@@ -113,8 +108,6 @@ object CLI extends App {
    try {
      debugCLI.runDebugging(inputCLI)
      inferenceCLI.runInference()
-     learningCLI.runLearning()
-     outputCLI.runOutput()
    } catch {
      case e: ArgotUsageException =>
        println(e.message)

@@ -24,7 +24,7 @@ import edu.ucla.cs.starai.forclift.conditioning._
 import edu.ucla.cs.starai.forclift.propositional._
 import edu.ucla.cs.starai.forclift.util._
 import edu.ucla.cs.starai.forclift.nnf.visitors.SignLogDoubleWmc
-import edu.ucla.cs.starai.forclift.nnf.visitors.VerifyWmcVisitor
+// import edu.ucla.cs.starai.forclift.nnf.visitors.VerifyWmcVisitor
 import edu.ucla.cs.starai.forclift.nnf.visitors.WmcVisitor
 
 case class WeightedCNF(
@@ -81,14 +81,14 @@ case class WeightedCNF(
     c2d.weightedModelCount(propCnf)
   }
 
-  def verifyLogWmc {
-	VerifyWmcVisitor.verify(smoothNnf,domainSizes, predicateWeights)
-    val correct = ((logSmoothPropWmc - logSmoothWmc).abs.logToDouble < 0.0000001
-    				|| (logSmoothPropWmc.logToDouble - logSmoothWmc.logToDouble).abs < 0.0000001)
-    if (!correct) {
-      throw new VerifyWmcVisitor.VerificationFailedException
-    }
-  }
+  // def verifyLogWmc {
+	// VerifyWmcVisitor.verify(smoothNnf,domainSizes, predicateWeights)
+  //   val correct = ((logSmoothPropWmc - logSmoothWmc).abs.logToDouble < 0.0000001
+  //   				|| (logSmoothPropWmc.logToDouble - logSmoothWmc.logToDouble).abs < 0.0000001)
+  //   if (!correct) {
+  //     throw new VerifyWmcVisitor.VerificationFailedException
+  //   }
+  // }
 
   def logPropProbability(query: Atom) = {
     val cnfBuilder = toDimacsCNFBuilder

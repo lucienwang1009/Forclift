@@ -47,10 +47,10 @@ class DebugCLI(argumentParser: ArgotParser) {
     "Verbose output (and verbose pdf).")
   def verbose = verboseFlag.value.getOrElse(false)
 
-  val verifyWmcFlag = argumentParser.flag[Boolean](
-    List("verify"),
-    "Verify the result of wfomc using the UCLA c2d compiler. The c2d compiler command can be set with environment variable C2DCMD (default: ./c2d_linux).")
-  def verifyWmc = verifyWmcFlag.value.getOrElse(false)
+  // val verifyWmcFlag = argumentParser.flag[Boolean](
+  //   List("verify"),
+  //   "Verify the result of wfomc using the UCLA c2d compiler. The c2d compiler command can be set with environment variable C2DCMD (default: ./c2d_linux).")
+  // def verifyWmc = verifyWmcFlag.value.getOrElse(false)
   
   val showNNFFlag = argumentParser.flag[Boolean](
     List("pdf"),
@@ -71,13 +71,13 @@ class DebugCLI(argumentParser: ArgotParser) {
       println
     }
     
-    if (verifyWmc) {
-      inputCLI.wcnfModel.verifyLogWmc
-      if (inputCLI.hasQuery){
-        val wcnfQuery = inputCLI.wcnfModel.addConstraint(inputCLI.query)
-        wcnfQuery.verifyLogWmc
-      }
-    }
+    // if (verifyWmc) {
+    //   inputCLI.wcnfModel.verifyLogWmc
+    //   if (inputCLI.hasQuery){
+    //     val wcnfQuery = inputCLI.wcnfModel.addConstraint(inputCLI.query)
+    //     wcnfQuery.verifyLogWmc
+    //   }
+    // }
     
     if(showNNF){
       // set some default parameter that have no flags

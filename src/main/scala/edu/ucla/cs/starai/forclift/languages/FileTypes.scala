@@ -27,15 +27,9 @@ sealed class FileFormat(val name: String, val extension: String){
 object FileFormat{
   
   case object MLN extends FileFormat("MLN","mln")
-  case object FOCNF extends FileFormat("FO-CNF","focnf")
-  case object FactorGraph extends FileFormat("Factor Graph","fg")
-  case object WeightedGroupLogic extends FileFormat("Weighted Group Logic","wgl")
 
   implicit def stringToFileFormat(s:String): Option[FileFormat] = s match {
-    case FOCNF.extension => Some(FOCNF)
     case MLN.extension => Some(MLN)
-    case FactorGraph.extension => Some(FactorGraph)
-    case WeightedGroupLogic.extension => Some(WeightedGroupLogic)
     case _ =>  None
   }
   

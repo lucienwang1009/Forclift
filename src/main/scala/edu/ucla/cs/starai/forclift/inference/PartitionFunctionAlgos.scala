@@ -19,7 +19,6 @@ package edu.ucla.cs.starai.forclift.inference
 import edu.ucla.cs.starai.forclift._
 import edu.ucla.cs.starai.forclift.compiler._
 import edu.ucla.cs.starai.forclift.inference._
-import edu.ucla.cs.starai.forclift.rcr.NoTruthRCR
 import edu.ucla.cs.starai.forclift.util.Timer
 import edu.ucla.cs.starai.forclift.util.SignLogDouble
 
@@ -57,25 +56,6 @@ class PartitionFunctionExact(
     println(s"Z = $wmc = ${wmc.toDouble}")
       
     wmc
-  }
-
-}
-
-
-class PartitionFunctionC2D(
-    override val verbose: Boolean = false) 
-    extends PartitionFunctionAlgorithm {
-
-  /**
-   * Output partition function using c2d (propositional)
-   */
-  def computePartitionFunction(wcnf: WeightedCNF): SignLogDouble = {
-
-      println(s"Running C2D (propositonal inference)")
-      val wmc = wcnf.logSmoothPropWmc
-      println(s"Z = $wmc = ${wmc.toDouble}")
-      
-      wmc
   }
 
 }

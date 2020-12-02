@@ -17,7 +17,6 @@
 package edu.ucla.cs.starai.forclift.languages
 
 import edu.ucla.cs.starai.forclift.inference.WeightedCNF
-import edu.ucla.cs.starai.forclift.languages.focnf.FOCNF
 import edu.ucla.cs.starai.forclift.languages.mln.MLN
 import edu.ucla.cs.starai.forclift.propositional.DimacsCNF
 import edu.ucla.cs.starai.forclift.propositional.DimacsCNF
@@ -43,10 +42,6 @@ object ModelConverters{
   
   implicit def fgToWeightedCNF(model: FactorGraph): WeightedCNF = {
     model.toWeightedCNF()
-  }
-  
-  implicit def focnfToWeightedCNF(model: FOCNF): WeightedCNF = {
-    model.weightedCNF()
   }
     
 }

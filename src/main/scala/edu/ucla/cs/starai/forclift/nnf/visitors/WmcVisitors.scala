@@ -486,222 +486,222 @@ class SafeSignLogDoubleWmc extends SignLogDoubleWmc {
  * Compute WMC while also verifying the counts of every intermediate step using C2D
  */
 
-object VerifyWmcVisitor {
-
-  class VerificationFailedException extends Exception
-
-  def verify(nnf: NNFNode, domainSizes: DomainSizes, predicateWeights: PredicateWeights) {
-    (new VerifyWmcVisitor()).visit(nnf, (domainSizes, predicateWeights))
-  }
-
-}
-
-protected class VerifyWmcVisitor extends SignLogDoubleWmc {
-  
-  val nonVerifyingWmcVisitor = new SignLogDoubleWmc
-
-  override def visit(nnfNode: NNFNode, params: (DomainSizes, PredicateWeights)): SignLogDouble = {
-    val wmc = super.visit(nnfNode, params)
-    verifyLocal(nnfNode, params)
-    wmc
-  }
-
-  protected def verifyLocal(nnfNode: NNFNode, params: (DomainSizes, PredicateWeights)) {
-    val (domainSizes, predicateWeights) = params
-    try {
-      val cnf = nnfNode.cnf
-      val weightedCNF = WeightedCNF(cnf, domainSizes, predicateWeights)
-      // ground truth (pun intended)
-      val groundCNF = cnf.ground(domainSizes)
-      // smooth with everything appearing in the ground cnf, not with every predicate grounding!!
-      val atomsInPropWmc = groundCNF.atoms.map { new PositiveUnitClause(_, Constraints.empty) }
-      val (thisSmooth, countedAtoms) = nnfNode.smooth
-      // not used -- debugging purposes only
-      val onceSmoothedLiftedLogWmc = nonVerifyingWmcVisitor.visit(thisSmooth, params)
-      // must also ground before subtracting, otherwise constants will unify with empty domain variables
-      val atomsInLiftedWmc = countedAtoms.flatMap { _.ground(domainSizes).map { _.toPositiveUnitClause } }
-      val atomsMissingFromLiftedWmc = atomsInPropWmc.flatMap { _.minus(atomsInLiftedWmc) }
-      val atomsMissingFromPropWmc = atomsInLiftedWmc.flatMap { _.minus(atomsInPropWmc) }
-
-      val thisTwiceSmoothed = thisSmooth.smoothWith(atomsMissingFromLiftedWmc)
-      val twiceSmoothedLiftedLogWmc = nonVerifyingWmcVisitor.visit(thisTwiceSmoothed, params)
-
-      val weightsMissingFromPropWmc = atomsMissingFromPropWmc.toList.map { clause =>
-        nonVerifyingWmcVisitor.visit((new SmoothingNode(clause)), params)
-      }
-      val propLogWmc = weightedCNF.logPropWmc
-      val twiceSmoothedPropLogWmc = {
-        weightsMissingFromPropWmc.foldLeft(propLogWmc) { _ * _ }
-      }
-
-      val correct = ((twiceSmoothedPropLogWmc == twiceSmoothedLiftedLogWmc)
-        || twiceSmoothedPropLogWmc.isZero && twiceSmoothedLiftedLogWmc.isZero
-        || (twiceSmoothedPropLogWmc.logToDouble - twiceSmoothedLiftedLogWmc.logToDouble).abs < 0.0000001
-        || (twiceSmoothedPropLogWmc - twiceSmoothedLiftedLogWmc).abs.logToDouble < 0.0000001)
-      if (!correct) {
-        println("WMC:")
-        println(weightedCNF)
-        println("Ground CNF:")
-        println(weightedCNF.groundCnf)
-        println("correct wmc = " + twiceSmoothedPropLogWmc.exp)
-        println("our wmc = " + twiceSmoothedLiftedLogWmc.exp)
-        println("test wmc = " + onceSmoothedLiftedLogWmc.exp)
-        println("debug")
-        thisTwiceSmoothed.showPDF(domainSizes, predicateWeights, false, file = "bug.nnf")
-        throw new VerifyWmcVisitor.VerificationFailedException
-      }
-
-    } catch {
-      case c2d: C2DError => {
-        // C2D refuses: can't verify this node.
-      }
-    }
-  }
-
-}
- 
+// object VerifyWmcVisitor {
+// 
+//   class VerificationFailedException extends Exception
+// 
+//   def verify(nnf: NNFNode, domainSizes: DomainSizes, predicateWeights: PredicateWeights) {
+//     (new VerifyWmcVisitor()).visit(nnf, (domainSizes, predicateWeights))
+//   }
+// 
+// }
+// 
+// protected class VerifyWmcVisitor extends SignLogDoubleWmc {
+//   
+//   val nonVerifyingWmcVisitor = new SignLogDoubleWmc
+// 
+//   override def visit(nnfNode: NNFNode, params: (DomainSizes, PredicateWeights)): SignLogDouble = {
+//     val wmc = super.visit(nnfNode, params)
+//     verifyLocal(nnfNode, params)
+//     wmc
+//   }
+// 
+//   protected def verifyLocal(nnfNode: NNFNode, params: (DomainSizes, PredicateWeights)) {
+//     val (domainSizes, predicateWeights) = params
+//     try {
+//       val cnf = nnfNode.cnf
+//       val weightedCNF = WeightedCNF(cnf, domainSizes, predicateWeights)
+//       // ground truth (pun intended)
+//       val groundCNF = cnf.ground(domainSizes)
+//       // smooth with everything appearing in the ground cnf, not with every predicate grounding!!
+//       val atomsInPropWmc = groundCNF.atoms.map { new PositiveUnitClause(_, Constraints.empty) }
+//       val (thisSmooth, countedAtoms) = nnfNode.smooth
+//       // not used -- debugging purposes only
+//       val onceSmoothedLiftedLogWmc = nonVerifyingWmcVisitor.visit(thisSmooth, params)
+//       // must also ground before subtracting, otherwise constants will unify with empty domain variables
+//       val atomsInLiftedWmc = countedAtoms.flatMap { _.ground(domainSizes).map { _.toPositiveUnitClause } }
+//       val atomsMissingFromLiftedWmc = atomsInPropWmc.flatMap { _.minus(atomsInLiftedWmc) }
+//       val atomsMissingFromPropWmc = atomsInLiftedWmc.flatMap { _.minus(atomsInPropWmc) }
+// 
+//       val thisTwiceSmoothed = thisSmooth.smoothWith(atomsMissingFromLiftedWmc)
+//       val twiceSmoothedLiftedLogWmc = nonVerifyingWmcVisitor.visit(thisTwiceSmoothed, params)
+// 
+//       val weightsMissingFromPropWmc = atomsMissingFromPropWmc.toList.map { clause =>
+//         nonVerifyingWmcVisitor.visit((new SmoothingNode(clause)), params)
+//       }
+//       val propLogWmc = weightedCNF.logPropWmc
+//       val twiceSmoothedPropLogWmc = {
+//         weightsMissingFromPropWmc.foldLeft(propLogWmc) { _ * _ }
+//       }
+// 
+//       val correct = ((twiceSmoothedPropLogWmc == twiceSmoothedLiftedLogWmc)
+//         || twiceSmoothedPropLogWmc.isZero && twiceSmoothedLiftedLogWmc.isZero
+//         || (twiceSmoothedPropLogWmc.logToDouble - twiceSmoothedLiftedLogWmc.logToDouble).abs < 0.0000001
+//         || (twiceSmoothedPropLogWmc - twiceSmoothedLiftedLogWmc).abs.logToDouble < 0.0000001)
+//       if (!correct) {
+//         println("WMC:")
+//         println(weightedCNF)
+//         println("Ground CNF:")
+//         println(weightedCNF.groundCnf)
+//         println("correct wmc = " + twiceSmoothedPropLogWmc.exp)
+//         println("our wmc = " + twiceSmoothedLiftedLogWmc.exp)
+//         println("test wmc = " + onceSmoothedLiftedLogWmc.exp)
+//         println("debug")
+//         thisTwiceSmoothed.showPDF(domainSizes, predicateWeights, false, file = "bug.nnf")
+//         throw new VerifyWmcVisitor.VerificationFailedException
+//       }
+// 
+//     } catch {
+//       case c2d: C2DError => {
+//         // C2D refuses: can't verify this node.
+//       }
+//     }
+//   }
+// 
+// }
+//  
 
 /**
  * Goes out of memory
  */
-protected class BigIntWmc(val decimalPrecision: Int = 100) extends NnfVisitor[(DomainSizes, PredicateWeights), BigInt] with WmcVisitor {
-  
-  val zero: BigInt = 0
-  val one: BigInt = 1
-  
-  def wmc(nnf: NNFNode, domainSizes: DomainSizes, predicateWeights: PredicateWeights): SignLogDouble = {
-    val normalization: LogDouble = LogDouble.doubleToLogDouble(decimalPrecision).pow(numRandVars(domainSizes,predicateWeights))
-    bigInt2SignLogDouble(visit(nnf, (domainSizes, predicateWeights)))/normalization
-  }
-  
-  def numRandVars(domainSizes: DomainSizes, predicateWeights: PredicateWeights): Int = {
-    predicateWeights.predicates.map { _.toAtom.nbGroundings(domainSizes) }.sum
-  }
-  
-  val LOG2 = Math.log(2.0);
-
-  // see http://stackoverflow.com/questions/6827516/logarithm-for-BigInt
-  def bigInt2SignLogDouble(bigint: BigInt): SignLogDouble = {
-      var v = bigint
-      val blex = v.bitLength - 1022; // any value in 60..1023 is ok
-      if (blex > 0)
-          v = v >> blex;
-      val res = Math.log(v.doubleValue());
-      return SignLogDouble.fromLog(if(blex > 0) res + blex * LOG2 else res);
-  }
-
-  protected def visitDomainRecursion(dr: DomainRecursionNode, params: (DomainSizes, PredicateWeights)): BigInt = {
-    val (domainSizes, predicateWeights) = params
-    val maxSize = dr.domain.size(domainSizes, dr.ineqs)
-    if (maxSize < 1) one
-    else {
-      val groundChildWmc = visit(dr.groundChild, params)
-      // old inference, linear
-      var logWeight = groundChildWmc.pow(maxSize)
-      val childchildWmc = visit(dr.mixedChild.child, params)
-      groundChildWmc.pow(maxSize) * childchildWmc.pow((maxSize * (maxSize - 1)) / 2)
-    }
-  }
-
-  protected def visitExists(exists: CountingNode, params: (DomainSizes, PredicateWeights)): BigInt = {
-    val (domainSizes, predicateWeights) = params
-    val maxSize: Int = exists.domain.size(domainSizes, exists.excludedConstants)
-    var logWeight = zero;
-    for (nbTrue <- 0 to maxSize) {
-      val newDomainSizes = (domainSizes
-        + (exists.subdomain, nbTrue)
-        + (exists.subdomain.complement, (maxSize - nbTrue)));
-      val newParams = (newDomainSizes, predicateWeights)
-      val childWeight = visit(exists.child, newParams)
-      val binomialCoeff = coeff(maxSize, nbTrue)
-      logWeight += binomialCoeff * childWeight
-    }
-    logWeight
-  }
-  
-  // special cache for bigint factorials (cf. Binomial class)
-  private[this] val factorialCache = new collection.mutable.ArrayBuffer[BigInt] ++ List(one, one)
-
-  def factorial(n: Int): BigInt = {
-    if (n < factorialCache.length) factorialCache(n)
-    else {
-      for (i <- factorialCache.length to n) {
-        factorialCache += (factorialCache(i - 1) * i)
-      }
-      factorialCache.last
-    }
-  }
-
-  def coeff(n: Int, k: Int): BigInt = factorial(n) / factorial(k) / factorial(n - k)
-
-
-  protected def visitForallNode(forall: IndependentPartialGroundingNode, params: (DomainSizes, PredicateWeights)): BigInt = {
-    val (domainSizes, predicateWeights) = params
-    val childlwmc = visit(forall.child, params)
-    val nbGroundings = forall.d.size(domainSizes, forall.ineqs)
-    if (nbGroundings == 0) {
-      one
-    } else {
-      childlwmc.pow(nbGroundings)
-    }
-  }
-
-  protected def visitInclusionExclusionNode(ie: InclusionExclusion, params: (DomainSizes, PredicateWeights)): BigInt = {
-    val plus1lwmc = visit(ie.plus1, params)
-    val plus2lwmc = visit(ie.plus2, params)
-    val minlwmc = visit(ie.min, params)
-    plus1lwmc + plus2lwmc - minlwmc
-  }
-
-  protected def visitOrNode(or: Or, params: (DomainSizes, PredicateWeights)): BigInt = {
-    val llwmcc = visit(or.l, params)
-    val rlwmcc = visit(or.r, params)
-    llwmcc + rlwmcc
-  }
-
-  protected def visitAndNode(and: And, params: (DomainSizes, PredicateWeights)): BigInt = {
-    val llwmcc = visit(and.l, params)
-    if (llwmcc == zero) zero
-    else {
-      val rlwmcc = visit(and.r, params)
-      llwmcc * rlwmcc
-    }
-  }
-
-  protected def visitRefNode(ref: Ref, params: (DomainSizes, PredicateWeights)): BigInt = {
-    visit(ref.nnfNode, params)
-  }
-
-  protected def visitSmoothingNode(leaf: SmoothingNode, params: (DomainSizes, PredicateWeights)): BigInt = {
-    val (domainSizes, predicateWeights) = params
-    val weights = predicateWeights(leaf.clause.atom.predicate)
-    val nbGroundings = leaf.clause.nbGroundings(domainSizes)
-    BigInt((decimalPrecision*weights.negWPlusPosWDouble).toInt).pow(nbGroundings)
-  }
-
-  protected def visitContradictionLeaf(leaf: ContradictionLeaf, params: (DomainSizes, PredicateWeights)): BigInt = {
-    val (domainSizes, predicateWeights) = params
-    val hasSolution = leaf.clause.hasConstraintSolution(domainSizes)
-    //if the clause has no groundings, it resolves to true
-    if (hasSolution) zero else one
-  }
-
-  protected def visitUnitLeaf(leaf: UnitLeaf, params: (DomainSizes, PredicateWeights)): BigInt = {
-    val (domainSizes, predicateWeights) = params
-    val weights = predicateWeights(leaf.clause.atom.predicate)
-    val nbGroundings = leaf.clause.nbGroundings(domainSizes)
-    //if the unit clause has no groundings, it resolves to true
-    if (nbGroundings == 0) one
-    else if (leaf.positive) BigInt((decimalPrecision*weights.posWDouble).toInt).pow(nbGroundings)
-    else BigInt((decimalPrecision*weights.negWDouble).toInt).pow(nbGroundings)
-  }
-
-  protected def visitGroundingNode(leaf: GroundingNode, params: (DomainSizes, PredicateWeights)): BigInt = {
-    throw new UnsupportedOperationException
-  }
-  
-
-  protected def visitFalse(params: (DomainSizes, PredicateWeights)): BigInt = zero
-  protected def visitTrue(params: (DomainSizes, PredicateWeights)): BigInt = one
-
-}
+// protected class BigIntWmc(val decimalPrecision: Int = 100) extends NnfVisitor[(DomainSizes, PredicateWeights), BigInt] with WmcVisitor {
+//   
+//   val zero: BigInt = 0
+//   val one: BigInt = 1
+//   
+//   def wmc(nnf: NNFNode, domainSizes: DomainSizes, predicateWeights: PredicateWeights): SignLogDouble = {
+//     val normalization: LogDouble = decimalPrecision.pow(numRandVars(domainSizes,predicateWeights))
+//     bigInt2SignLogDouble(visit(nnf, (domainSizes, predicateWeights)))/normalization
+//   }
+//   
+//   def numRandVars(domainSizes: DomainSizes, predicateWeights: PredicateWeights): Int = {
+//     predicateWeights.predicates.map { _.toAtom.nbGroundings(domainSizes) }.sum
+//   }
+//   
+//   val LOG2 = Math.log(2.0);
+// 
+//   // see http://stackoverflow.com/questions/6827516/logarithm-for-BigInt
+//   def bigInt2SignLogDouble(bigint: BigInt): SignLogDouble = {
+//       var v = bigint
+//       val blex = v.bitLength - 1022; // any value in 60..1023 is ok
+//       if (blex > 0)
+//           v = v >> blex;
+//       val res = Math.log(v.doubleValue());
+//       return SignLogDouble.fromLog(if(blex > 0) res + blex * LOG2 else res);
+//   }
+// 
+//   protected def visitDomainRecursion(dr: DomainRecursionNode, params: (DomainSizes, PredicateWeights)): BigInt = {
+//     val (domainSizes, predicateWeights) = params
+//     val maxSize = dr.domain.size(domainSizes, dr.ineqs)
+//     if (maxSize < 1) one
+//     else {
+//       val groundChildWmc = visit(dr.groundChild, params)
+//       // old inference, linear
+//       var logWeight = groundChildWmc.pow(maxSize)
+//       val childchildWmc = visit(dr.mixedChild.child, params)
+//       groundChildWmc.pow(maxSize) * childchildWmc.pow((maxSize * (maxSize - 1)) / 2)
+//     }
+//   }
+// 
+//   protected def visitExists(exists: CountingNode, params: (DomainSizes, PredicateWeights)): BigInt = {
+//     val (domainSizes, predicateWeights) = params
+//     val maxSize: Int = exists.domain.size(domainSizes, exists.excludedConstants)
+//     var logWeight = zero;
+//     for (nbTrue <- 0 to maxSize) {
+//       val newDomainSizes = (domainSizes
+//         + (exists.subdomain, nbTrue)
+//         + (exists.subdomain.complement, (maxSize - nbTrue)));
+//       val newParams = (newDomainSizes, predicateWeights)
+//       val childWeight = visit(exists.child, newParams)
+//       val binomialCoeff = coeff(maxSize, nbTrue)
+//       logWeight += binomialCoeff * childWeight
+//     }
+//     logWeight
+//   }
+//   
+//   // special cache for bigint factorials (cf. Binomial class)
+//   private[this] val factorialCache = new collection.mutable.ArrayBuffer[BigInt] ++ List(one, one)
+// 
+//   def factorial(n: Int): BigInt = {
+//     if (n < factorialCache.length) factorialCache(n)
+//     else {
+//       for (i <- factorialCache.length to n) {
+//         factorialCache += (factorialCache(i - 1) * i)
+//       }
+//       factorialCache.last
+//     }
+//   }
+// 
+//   def coeff(n: Int, k: Int): BigInt = factorial(n) / factorial(k) / factorial(n - k)
+// 
+// 
+//   protected def visitForallNode(forall: IndependentPartialGroundingNode, params: (DomainSizes, PredicateWeights)): BigInt = {
+//     val (domainSizes, predicateWeights) = params
+//     val childlwmc = visit(forall.child, params)
+//     val nbGroundings = forall.d.size(domainSizes, forall.ineqs)
+//     if (nbGroundings == 0) {
+//       one
+//     } else {
+//       childlwmc.pow(nbGroundings)
+//     }
+//   }
+// 
+//   protected def visitInclusionExclusionNode(ie: InclusionExclusion, params: (DomainSizes, PredicateWeights)): BigInt = {
+//     val plus1lwmc = visit(ie.plus1, params)
+//     val plus2lwmc = visit(ie.plus2, params)
+//     val minlwmc = visit(ie.min, params)
+//     plus1lwmc + plus2lwmc - minlwmc
+//   }
+// 
+//   protected def visitOrNode(or: Or, params: (DomainSizes, PredicateWeights)): BigInt = {
+//     val llwmcc = visit(or.l, params)
+//     val rlwmcc = visit(or.r, params)
+//     llwmcc + rlwmcc
+//   }
+// 
+//   protected def visitAndNode(and: And, params: (DomainSizes, PredicateWeights)): BigInt = {
+//     val llwmcc = visit(and.l, params)
+//     if (llwmcc == zero) zero
+//     else {
+//       val rlwmcc = visit(and.r, params)
+//       llwmcc * rlwmcc
+//     }
+//   }
+// 
+//   protected def visitRefNode(ref: Ref, params: (DomainSizes, PredicateWeights)): BigInt = {
+//     visit(ref.nnfNode, params)
+//   }
+// 
+//   protected def visitSmoothingNode(leaf: SmoothingNode, params: (DomainSizes, PredicateWeights)): BigInt = {
+//     val (domainSizes, predicateWeights) = params
+//     val weights = predicateWeights(leaf.clause.atom.predicate)
+//     val nbGroundings = leaf.clause.nbGroundings(domainSizes)
+//     BigInt((decimalPrecision*weights.negWPlusPosWDouble).toInt).pow(nbGroundings)
+//   }
+// 
+//   protected def visitContradictionLeaf(leaf: ContradictionLeaf, params: (DomainSizes, PredicateWeights)): BigInt = {
+//     val (domainSizes, predicateWeights) = params
+//     val hasSolution = leaf.clause.hasConstraintSolution(domainSizes)
+//     //if the clause has no groundings, it resolves to true
+//     if (hasSolution) zero else one
+//   }
+// 
+//   protected def visitUnitLeaf(leaf: UnitLeaf, params: (DomainSizes, PredicateWeights)): BigInt = {
+//     val (domainSizes, predicateWeights) = params
+//     val weights = predicateWeights(leaf.clause.atom.predicate)
+//     val nbGroundings = leaf.clause.nbGroundings(domainSizes)
+//     //if the unit clause has no groundings, it resolves to true
+//     if (nbGroundings == 0) one
+//     else if (leaf.positive) BigInt((decimalPrecision*weights.posWDouble).toInt).pow(nbGroundings)
+//     else BigInt((decimalPrecision*weights.negWDouble).toInt).pow(nbGroundings)
+//   }
+// 
+//   protected def visitGroundingNode(leaf: GroundingNode, params: (DomainSizes, PredicateWeights)): BigInt = {
+//     throw new UnsupportedOperationException
+//   }
+//   
+// 
+//   protected def visitFalse(params: (DomainSizes, PredicateWeights)): BigInt = zero
+//   protected def visitTrue(params: (DomainSizes, PredicateWeights)): BigInt = one
+// 
+// }

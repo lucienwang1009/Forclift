@@ -19,7 +19,6 @@ package edu.ucla.cs.starai.forclift.inference
 import edu.ucla.cs.starai.forclift._
 import edu.ucla.cs.starai.forclift.compiler._
 import edu.ucla.cs.starai.forclift.inference._
-import edu.ucla.cs.starai.forclift.rcr.NoTruthRCR
 
 trait AllMarginalsAlgorithm{
    
@@ -72,22 +71,4 @@ class AllMarginalsExact(
     println("done")
   }
 
-}
-
-class AllMarginalsRCR(
-    override val verbose: Boolean = false) 
-    extends AllMarginalsAlgorithm {
-    
-
-  /**
-   * Output all marginals using relax, compensate, and recover
-   */
-  def computeAllMarginals(theoryWmc: WeightedCNF) {
-      println(s"Running lifted relax, compensate, and recover")
-      val rcr = new NoTruthRCR(theoryWmc, verbose = verbose)
-      rcr.compensateFullRelaxationAndRecover()
-      println("done")
-    }
-
-      
 }
