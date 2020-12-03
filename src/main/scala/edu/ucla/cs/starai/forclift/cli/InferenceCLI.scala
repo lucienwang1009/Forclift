@@ -44,9 +44,7 @@ import edu.ucla.cs.starai.forclift.inference.WeightedCNF
 import edu.ucla.cs.starai.forclift.compiler.Compiler
 import edu.ucla.cs.starai.forclift.languages.StatRelModel
 import edu.ucla.cs.starai.forclift.languages.ModelParser
-import edu.ucla.cs.starai.forclift.inference.AllMarginalsExact
 import edu.ucla.cs.starai.forclift.util.Timer
-import edu.ucla.cs.starai.forclift.inference.QueryProbExact
 import edu.ucla.cs.starai.forclift.inference.PartitionFunctionExact
 
 /**
@@ -64,11 +62,6 @@ class InferenceCLI(
     "Compute the weighted model count/partition function.")
   def z = zFlag.value.getOrElse(false)
   
-  val margs = argumentParser.flag[Boolean](
-    List("margs"),
-    "Compute all marginal probabilities.")    
-  def allMarginals = margs.value.getOrElse(false)
-  
   def hasQuery = inputCLI.hasQuery
 
   val fokc = true
@@ -79,19 +72,8 @@ class InferenceCLI(
     inputCLI.queryOpt
     println("Starting to run inference")
     Timer{
-      if(allMarginals) runAllMarginalsInference()
       if(z) runPartitionFunctionInference()
-      if(hasQuery) runQueryInference()
     }("Inference took "+_+" ms")
-  }
-  
-  def runAllMarginalsInference(){
-    // Compute all marginals (default)
-    println(s"Computing all marginals")
-    if (fokc) {
-      val algo = new AllMarginalsExact(debugCLI.verbose)
-      algo.computeAllMarginals(inputCLI.wcnfModel)
-    }
   }
   
   def runPartitionFunctionInference(){
@@ -100,16 +82,6 @@ class InferenceCLI(
     if (fokc) {
       val algo = new PartitionFunctionExact(debugCLI.verbose)
       algo.computePartitionFunction(inputCLI.wcnfModel)
-    }
-  }
-    
-  def runQueryInference(){
-    // Compute query probability
-    // Only compute partition function
-    println(s"Computing weighted model count/partition function Z")
-    if (fokc) {
-      val algo = new QueryProbExact(debugCLI.verbose)
-      algo.computeQueryProb(inputCLI.wcnfModel, inputCLI.query)
     }
   }
   
