@@ -112,19 +112,20 @@ class LogC2D extends AbstractC2D {
   import edu.ucla.cs.starai.forclift.util.SignLogDouble._
 
   override def probability(cnf: DimacsCNF, query: Int): SignLogDouble = {
-    if (cnf.pline.nbVars == 1 && cnf.pline.nbClauses == 1 && cnf.clauseLines.head.vars.size == 1) {
-      // c2d crashes on this case
-      require(query == 1)
-      if (cnf.clauseLines.head.vars == List(1)) one
-      else if (cnf.clauseLines.head.vars == List(-1)) zero
-      else throw new IllegalStateException
-    } else if (cnf.pline.nbVars == 0) {
-      val numerator = (cnf.weights(query)._1)
-      val denominator = (cnf.weights(query)._1) + (cnf.weights(query)._2)
-      numerator / denominator
-    } else {
-      super.probability(cnf, query)
-    }
+    throw new UnsupportedOperationException
+    // if (cnf.pline.nbVars == 1 && cnf.pline.nbClauses == 1 && cnf.clauseLines.head.vars.size == 1) {
+    //   // c2d crashes on this case
+    //   require(query == 1)
+    //   if (cnf.clauseLines.head.vars == List(1)) one
+    //   else if (cnf.clauseLines.head.vars == List(-1)) zero
+    //   else throw new IllegalStateException
+    // } else if (cnf.pline.nbVars == 0) {
+    //   val numerator = (cnf.weights(query)._1)
+    //   val denominator = (cnf.weights(query)._1) + (cnf.weights(query)._2)
+    //   numerator / denominator
+    // } else {
+    //   super.probability(cnf, query)
+    // }
   }
 
   override def weightedModelCount(cnf: DimacsCNF): SignLogDouble = {
