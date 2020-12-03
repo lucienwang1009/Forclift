@@ -24,45 +24,35 @@ import scala.language.implicitConversions
 final class LogDouble(val v: Double) extends AnyVal with Ordered[LogDouble]{
   
   @inline def isZero = {
-    println("iszero")
     v.isNegInfinity
   }
   @inline def isOne = {
-    println("isone")
     (v == 0)
   }
   @inline def isNaN = {
-    println("isNaN")
     v.isNaN
   }
   @inline def isInfinite = {
-    println("isInfinite")
     v.isPosInfinity
   }
   @inline def isNegInfinite = {
-    println("isNegInfinite")
     v.isNegInfinity
   }
   
   @inline def compare(that: LogDouble) =  {
-    println(("compare", this, that))
     if (this.v > that.v) 1 else if (this.v < that.v) -1 else 0
   }
   // override Ordered for performance
   @inline override def < (that:LogDouble) = {
-    println(("<", this, that))
     (this.v < that.v)
   }
   @inline override def > (that:LogDouble) = {
-    println((">", this, that))
     (this.v > that.v)
   }
   @inline override def <= (that:LogDouble) = {
-    println(("<=", this, that))
     (this.v <= that.v)
   }
   @inline override def >= (that:LogDouble) = {
-    println((">=", this, that))
     (this.v >= that.v)
   }
   
@@ -74,7 +64,6 @@ final class LogDouble(val v: Double) extends AnyVal with Ordered[LogDouble]{
    * https://gist.github.com/scalala/Scalala/blob/master/src/main/scala/scalala/library/Numerics.scala
    */
   @inline def + (that: LogDouble): LogDouble = {
-    println(("+", this, that))
     if (this.v < that.v) {
       if (this.isZero) that
       else new LogDouble(that.v + math.log1p(math.exp(this.v - that.v)))
@@ -88,7 +77,6 @@ final class LogDouble(val v: Double) extends AnyVal with Ordered[LogDouble]{
    * https://gist.github.com/scalala/Scalala/blob/master/src/main/scala/scalala/library/Numerics.scala
    */
   @inline def - (that: LogDouble): LogDouble = {
-    println(("-", this, that))
     require(this >= that, s"Cannot subtract $that from $this" )
     if (that.isZero) this
     else if (this == that) LogDouble.zero
@@ -96,53 +84,42 @@ final class LogDouble(val v: Double) extends AnyVal with Ordered[LogDouble]{
   }
   
   @inline def * (that: LogDouble): LogDouble = {
-    println(("*", this, that))
     new LogDouble(this.v + that.v)
   }
   @inline def / (that: LogDouble): LogDouble = {
-    println(("-", this, that))
     new LogDouble(this.v - that.v)
   }
   
   @inline def pow(exp: Int): LogDouble = {
-    println(("pow", this, exp))
     new LogDouble(this.v * exp)
   }
   @inline def pow(exp: Long): LogDouble = {
-    println(("pow", this, exp))
     new LogDouble(this.v * exp)
   }
   @inline def pow(exp: Double): LogDouble = {
-    println(("pow", this, exp))
     new LogDouble(this.v * exp)
   }
   @inline def root(exp: Int): LogDouble = {
-    println(("root", this, exp))
     require(exp >= 0)
     new LogDouble(this.v / exp)
   }
   @inline def root(exp: Long): LogDouble = {
-    println(("root", this, exp))
     require(exp >= 0)
     new LogDouble(this.v / exp)
   }
   @inline def root(exp: Double): LogDouble = {
-    println(("root", this, exp))
     require(exp >= 0)
     new LogDouble(this.v / exp)
   }
 
   @inline def log: LogDouble = {
-    println(("log", this))
     new LogDouble(math.log(this.v))
   }
   @inline def logToDouble: Double = this.v
   @inline def exp: LogDouble = {
-    println(("exp", this))
     new LogDouble(math.exp(this.v))
   }
   @inline def inv: LogDouble = {
-    println(("inv", this))
     new LogDouble(-this.v)
   }
 

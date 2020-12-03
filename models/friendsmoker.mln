@@ -8,5 +8,5 @@ person = {1, 2}
 //, Wannes, Jesse, Luc, 1, 2, 3, 4, 5, 6}
 friends(person,person)
 smokes(person)
-10 smokes(x)
+-7000.786523655447 smokes(x)
 10 friends(x,y) ^ smokes(x) => smokes(y)
