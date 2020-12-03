@@ -37,14 +37,15 @@ trait WmcVisitor {
 object WmcVisitor {
 
   def apply(predicateWeights: PredicateWeights): WmcVisitor = {
-    val hasNegativeWeight = predicateWeights.values.exists(w => w.negW < 0 || w.posW < 0)
-    if (hasNegativeWeight) {
-      //new SignLogDoubleWmc
-      new CachingSignLogDoubleWmc
-    } else {
-      //new LogDoubleWmc
-      new CachingLogDoubleWmc
-    }
+    // val hasNegativeWeight = predicateWeights.values.exists(w => w.negW < 0 || w.posW < 0)
+    // if (hasNegativeWeight) {
+    //   //new SignLogDoubleWmc
+    //   new CachingSignLogDoubleWmc
+    // } else {
+    //   //new LogDoubleWmc
+    //   new CachingLogDoubleWmc
+    // }
+    new CachingSignLogDoubleWmc
   }
 
 }

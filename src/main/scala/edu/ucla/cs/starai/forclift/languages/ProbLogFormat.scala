@@ -83,7 +83,7 @@ class ProbLogFormat(
       } else {
         " :- "+domStrings.mkString(", ")
       }
-      val prob = Math.exp(wf.weight)/(Math.exp(wf.weight)+1)
+      val prob = wf.weight.exp/(wf.weight.exp+1)
       prob+"::"+startLowerCase(atom.toString(nameSpace))+domString+"."
     }
     
@@ -98,8 +98,8 @@ class ProbLogFormat(
      wf.toWeightedCNFWithoutSplitting(wf_ns, exist_ns, skolemize=false) match {
        case (wcnf,Some(atom)) => {
          val varNameSpace = new VarNameSpace
-         val w = Math.log(wcnf.predicateWeights(atom.predicate).posWDouble)
-         val prob = Math.exp(w)/(Math.exp(w)+1)
+         val w = wcnf.predicateWeights(atom.predicate).posWDouble.log
+         val prob = w.exp/(w.exp+1)
          val domStrings = atom.variables.map{v =>
            val domain = atom.domain(v)
            startLowerCase(domain.name)+"("+varNameSpace.getName(v)+")"

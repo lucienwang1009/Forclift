@@ -21,7 +21,8 @@ import edu.ucla.cs.starai.forclift.nnf._
 
 abstract class NnfVisitor[I,O] {
 
-  def visit(node: NNFNode, input: I): O = node match{
+  def visit(node: NNFNode, input: I): O = {
+    node match{
       
       // Leaf Nodes
       case leaf: UnitLeaf => visitUnitLeaf(leaf, input)
@@ -44,6 +45,7 @@ abstract class NnfVisitor[I,O] {
 
       case _ => throw new IllegalArgumentException
     }
+  }
 
   protected def visitDomainRecursion(dr: DomainRecursionNode, input: I): O
   protected def visitExists(exists: CountingNode, input: I): O

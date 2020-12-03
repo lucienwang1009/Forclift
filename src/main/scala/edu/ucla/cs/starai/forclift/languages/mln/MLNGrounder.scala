@@ -20,6 +20,7 @@ import collection._
 import java.io._
 import edu.ucla.cs.starai.forclift.inference._
 import edu.ucla.cs.starai.forclift._
+import edu.ucla.cs.starai.forclift.util._
 import scala.Array.canBuildFrom
 
 object MLNGrounder {
@@ -84,9 +85,9 @@ object MLNGrounder {
       }
 
       // hack to also have integer weights for saucy
-      val weightMap = new mutable.HashMap[Double, Int]
+      val weightMap = new mutable.HashMap[ComplexDouble, Int]
       var maxWeightId = if (groundMln.wformulas.exists(_.isHard)) 2 else 1;
-      def getWeightId(weight: Double) = {
+      def getWeightId(weight: ComplexDouble) = {
         weightMap.getOrElseUpdate(weight, { maxWeightId += 1; maxWeightId })
       }
       case class SaucyClause(w: Int, literals: Set[Int]) {

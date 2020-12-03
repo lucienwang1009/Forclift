@@ -19,6 +19,7 @@ package edu.ucla.cs.starai.forclift.languages
 import collection._
 import edu.ucla.cs.starai.forclift._
 import edu.ucla.cs.starai.forclift.languages.mln._
+import edu.ucla.cs.starai.forclift.util._
 import java.io._
 import scala.io._
 
@@ -39,7 +40,7 @@ case class FastInfClique(
 case class FastInfMeasure(
   val id: Int,
   val variables: Seq[Int],
-  val potential: Seq[Double]) {
+  val potential: Seq[ComplexDouble]) {
 
   override def toString = {
     "meas%d\t".format(id) +
@@ -74,11 +75,11 @@ class FastInfFormat(
     case h :: t => for (xh <- h; xt <- cartesianProduct(t)) yield xh :: xt
   }
 
-  def buildPotential(atoms: List[Atom], wf: WeightedFormula): List[Double] = {
+  def buildPotential(atoms: List[Atom], wf: WeightedFormula): List[ComplexDouble] = {
     buildPotentialInt(atoms, Nil, wf)
   }
 
-  def buildPotentialInt(atoms: List[Atom], values: List[(Atom, Boolean)], wf: WeightedFormula): List[Double] = atoms match {
+  def buildPotentialInt(atoms: List[Atom], values: List[(Atom, Boolean)], wf: WeightedFormula): List[ComplexDouble] = atoms match {
     case Nil => {
       if (verbose) println("values:" + values)
       wf.formula.evaluate({ atom =>
@@ -95,7 +96,7 @@ class FastInfFormat(
           case Some((a, v)) => Some(v)
         }
       }) match {
-        case f: TrueFormula => math.exp(wf.weight) :: Nil
+        case f: TrueFormula => wf.weight.exp :: Nil
         case f: FalseFormula => 1 :: Nil
         case f => throw new IllegalStateException("Evaluated formula is not true or false.\n" + f.toString)
       }

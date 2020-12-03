@@ -17,7 +17,7 @@
 package edu.ucla.cs.starai.forclift.propositional
 
 import collection._
-import edu.ucla.cs.starai.forclift.util.SignLogDouble
+import edu.ucla.cs.starai.forclift.util._
 
 sealed trait DimacsCNFLine
 
@@ -78,7 +78,7 @@ case class DimacsCNF(lines: List[DimacsCNFLine]) {
 
 }
 
-class DimacsCNFBuilder[VarType](val weightFunction: (VarType => (Double, Double))) {
+class DimacsCNFBuilder[VarType](val weightFunction: (VarType => (ComplexDouble, ComplexDouble))) {
 
   private val varMap = new mutable.HashMap[VarType, Int]
   private var lastVar = 0

@@ -73,7 +73,7 @@ class MLNNameSpace extends NameSpace[Any, String] {
  */
 case class WeightedFormula(
   formula: Formula,
-  weight: Double,
+  weight: ComplexDouble,
   hard: Boolean = false,
   initialConstrs: Constraints = Constraints.empty) {
 
@@ -363,9 +363,9 @@ case class WeightedFormula(
         val (predWeights, nformula) = transformation match {
           case 0 => (PredicateWeights.empty + (res -> Weights.fromLog(weight, 0)), // 1 == exp(0)
             EqFormula(formula, LiteralFormula(f)))
-          case 1 => (PredicateWeights.empty + (res -> Weights(exp(weight) / (1 - exp(weight)), 1)),
+          case 1 => (PredicateWeights.empty + (res -> Weights(weight.exp / (1 - weight.exp), 1)),
             ImplFormula(formula, LiteralFormula(f)))
-          case 2 => (PredicateWeights.empty + (res -> Weights(exp(weight) - 1, 1)),
+          case 2 => (PredicateWeights.empty + (res -> Weights(weight.exp - 1, 1)),
             ImplFormula(LiteralFormula(f), formula))
         }
         (predWeights, nformula, Some(f))
@@ -621,14 +621,14 @@ case class MLN(
       val atom = pred((0 until pred.arity).map(i => new Var):_*)
       val atomstr = atom.toString(ns)
       ((if (ws.posWLogDouble.isNaN || ws.posWLogDouble.isNegInfinite) {
-        s"${ws.posWLogDouble.logToDouble} $atomstr // ERROR: Cannot express numbers <= 0"
+        s"${ws.posWLogDouble.logToComplexDouble} $atomstr // ERROR: Cannot express numbers <= 0"
       } else {
-        s"${ws.posWLogDouble.logToDouble} $atomstr"
+        s"${ws.posWLogDouble.logToComplexDouble} $atomstr"
       }) ::
       (if (ws.negWLogDouble.isNaN || ws.negWLogDouble.isNegInfinite) {
-        s"${ws.negWLogDouble.logToDouble} !$atomstr // ERROR: Cannot express numbers <= 0"
+        s"${ws.negWLogDouble.logToComplexDouble} !$atomstr // ERROR: Cannot express numbers <= 0"
       } else {
-        s"${ws.negWLogDouble.logToDouble} !$atomstr"
+        s"${ws.negWLogDouble.logToComplexDouble} !$atomstr"
       }) :: Nil).mkString("\n")
     }.toList
     

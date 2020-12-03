@@ -35,31 +35,31 @@ abstract class Weights {
   def negW: SignLogDouble
   def negWPlusPosW: SignLogDouble
   
-  def posWDouble: Double
-  def negWDouble: Double
-  def negWPlusPosWDouble: Double
+  def posWDouble: ComplexDouble
+  def negWDouble: ComplexDouble
+  def negWPlusPosWDouble: ComplexDouble
   
   def posWLogDouble: LogDouble
   def negWLogDouble: LogDouble
   def negWPlusPosWLogDouble: LogDouble
   
-  override def toString = "[" + posWDouble + "," + negWDouble + "]"
+  override def toString = "[" + posWDouble + "," + negWDouble + "," + negWPlusPosWLogDouble + "]"
 }
 
 object Weights {
 
-  def apply(posW: Double, negW: Double) = WeightsFromExp(posW, negW)
+  def apply(posW: ComplexDouble, negW: ComplexDouble) = WeightsFromExp(posW, negW)
 
-  def fromLog(posW: Double, negW: Double) = new WeightsFromLog(SignLogDouble.fromLog(posW), SignLogDouble.fromLog(negW))
+  def fromLog(posW: ComplexDouble, negW: ComplexDouble) = new WeightsFromLog(SignLogDouble.fromLog(posW), SignLogDouble.fromLog(negW))
 
 }
 
-final case class WeightsFromExp(val posWDouble: Double, val negWDouble: Double) extends Weights {
+final case class WeightsFromExp(val posWDouble: ComplexDouble, val negWDouble: ComplexDouble) extends Weights {
   // cache everything for performance!
   val posW: SignLogDouble = posWDouble
   val negW: SignLogDouble = negWDouble
   val negWPlusPosW: SignLogDouble = negW + posW
-  val negWPlusPosWDouble: Double = negWDouble + posWDouble
+  val negWPlusPosWDouble: ComplexDouble = negWDouble + posWDouble
   val posWLogDouble: LogDouble = if(posW.pos) posW.toLogDouble else LogDouble.NaN
   val negWLogDouble: LogDouble = if(negW.pos) negW.toLogDouble else LogDouble.NaN
   val negWPlusPosWLogDouble: LogDouble = if(negWPlusPosW.pos) negWPlusPosW.toLogDouble  else LogDouble.NaN
@@ -67,10 +67,10 @@ final case class WeightsFromExp(val posWDouble: Double, val negWDouble: Double) 
 
 final case class WeightsFromLog(val posW: SignLogDouble, val negW: SignLogDouble) extends Weights {
   // cache everything for performance!
-  val posWDouble = posW.toDouble
-  val negWDouble = negW.toDouble
+  val posWDouble = posW.toComplexDouble
+  val negWDouble = negW.toComplexDouble
   val negWPlusPosW: SignLogDouble = negW + posW
-  val negWPlusPosWDouble: Double = negWDouble + posWDouble
+  val negWPlusPosWDouble: ComplexDouble = negWDouble + posWDouble
   val posWLogDouble: LogDouble = if(posW.pos) posW.toLogDouble else LogDouble.NaN
   val negWLogDouble: LogDouble = if(negW.pos) negW.toLogDouble else LogDouble.NaN
   val negWPlusPosWLogDouble: LogDouble = if(negWPlusPosW.pos) negWPlusPosW.toLogDouble  else LogDouble.NaN

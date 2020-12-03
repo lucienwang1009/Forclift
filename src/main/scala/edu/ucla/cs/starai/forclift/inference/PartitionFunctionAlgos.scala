@@ -53,7 +53,7 @@ class PartitionFunctionExact(
     }
        
     val wmc = wcnf.logSmoothWmc
-    println(s"Z = $wmc = ${wmc.toDouble}")
+    println(s"Z = $wmc = ${wmc.toComplexDouble}")
       
     wmc
   }

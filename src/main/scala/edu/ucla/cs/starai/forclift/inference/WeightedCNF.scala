@@ -65,10 +65,11 @@ case class WeightedCNF(
   lazy val wmcVisitor = WmcVisitor(predicateWeights)
   
   lazy val logSmoothWmc: SignLogDouble = {
-    for ((k, v) <- predicateWeights) {
-      println((k, v))
-    }
     //TODO test sign of weights and optimize
+    for ((k, v) <- predicateWeights)
+      println(k, v)
+    for ((k, v) <- domainSizes)
+      println(k, v)
     wmcVisitor.wmc(smoothNnf,domainSizes, predicateWeights)
   }
 
@@ -106,7 +107,7 @@ case class WeightedCNF(
   def ground = WeightedCNF(groundCnf, domainSizes, predicateWeights, conditionedAtoms, compilerBuilder)
 
   lazy val toDimacsCNFBuilder: DimacsCNFBuilder[Atom] = {
-    def atomWeights(atom: Atom): (Double, Double) = {
+    def atomWeights(atom: Atom): (ComplexDouble, ComplexDouble) = {
       val w = predicateWeights(atom.predicate).posWDouble
       val negw = predicateWeights(atom.predicate).negWDouble
       (w, negw)

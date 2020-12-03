@@ -474,14 +474,15 @@ class MLNParser extends JavaTokenParsers with ModelParser {
 
   /** A weighted formula is a double followed by a formula. */
   lazy val wformula: Parser[WeightedFormula] = (
-    floatingPointNumber ~ """\s+""".r ~ formula ~ opt("""\s*,\s*""".r ~> constraints) <~ CRLFEOF ^^ {
-      case prob ~ _ ~ form ~ con_o => {
+    floatingPointNumber ~ """,""".r ~ floatingPointNumber ~ """\s+""".r ~ formula ~ opt("""\s*,\s*""".r ~> constraints) <~ CRLFEOF ^^ {
+      case real ~ _ ~ imag ~ _ ~ form ~ con_o => {
         val con = con_o match {
           case None => Constraints.empty
           case Some(cons) => cons
         }
-        printd(" Parsed weighted formula: " + prob + " " + form)
-        WeightedFormula(form, prob.toDouble, false, con).standardizeApart
+        val weight = new ComplexDouble(real.toDouble, imag.toDouble)
+        printd(" Parsed weighted formula: " + weight + " " + form)
+        WeightedFormula(form, weight, false, con).standardizeApart
       }
     }
     | failure("Expected a weighted formula."))
