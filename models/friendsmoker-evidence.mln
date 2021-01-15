@@ -1,0 +1,16 @@
+person = {0, 1, 2, 3, 4, 5}
+//, Wannes, Jesse, Luc, 1, 2, 3, 4, 5, 6}
+friends(person,person)
+smokes(person)
+1.22 smokes(x)
+2.08 friends(x,y) ^ smokes(x) => smokes(y)
+0.69 friends(x,y)
+
+smokes(0).
+smokes(1).
+smokes(2).
+smokes(4).
+smokes(5).
+friends(1,2).
+!friends(2,4).
+!friends(3,5).

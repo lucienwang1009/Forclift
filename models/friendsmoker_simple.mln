@@ -8,17 +8,7 @@ person = {1, 2, 3, 4, 5, 6}
 //, Wannes, Jesse, Luc, 1, 2, 3, 4, 5, 6}
 friends(person,person)
 smokes(person)
-stress(person)
 drinks(person)
-1.22 stress(x) => smokes(x)
+1.22 smokes(x)
 2.08 friends(x,y) ^ smokes(x) => smokes(y)
-2 stress(x) => drinks(x)
-1.5 friends(x,y) ^ drinks(x) => drinks(y)
-
-friends(1,2).
-friends(2,4).
-!friends(4,5).
-!friends(6,4).
-friends(3,4).
-friends(3,6).
-!friends(1,6).
+0.69 friends(x,y)
